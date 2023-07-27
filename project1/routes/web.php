@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome',['name'=>'Syed Akkeal']);
 });
+
+Route::view('second', 'second');
+Route::view('user', 'third');
+Route::view('company', 'company');
+Route::view('contact', 'contact');
+Route::view('about', 'about');
+Route::view('service', 'service');
+Route::view('career', 'career',['name'=> 'Syed AKkeal']);
