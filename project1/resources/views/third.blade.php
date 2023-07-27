@@ -51,9 +51,9 @@
                         <ul class="metismenu" id="menu">
                             <li class="active">
                                     <li><a href={{ url('') }}><i class="ti-map-alt"></i> <span>Home</span></a></li>
-                                    <li><a href={{ url('user') }}>Contact</a></li>
-                                    <li><a href={{ url('user') }}>Services</a></li>
-                                    <li><a href={{  url('user')}}>Careers</a></li>
+                                    <li><a href={{ url('third') }}>Contact</a></li>
+                                    <li><a href={{ url('third') }}>Services</a></li>
+                                    <li><a href={{  url('third')}}>Careers</a></li>
                                 </ul>
                             </li>
                         </ul>
