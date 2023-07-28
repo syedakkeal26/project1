@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TodoListController;
+use App\Http\Controllers\UseradminController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +22,24 @@ Route::get('/', function () {
 Route::post('/saveItem',[TodoListController::class, 'saveItem'])->name('saveItem');
 
 Route::view('first','index');
-Route::view('second', 'second');
+
+Route::get('/register',[UseradminController::class , 'register'])->name('register');
+Route::post('/register',[UseradminController::class , 'registerpost'])->name('registerpost');
+
+
+Route::get('/login',[UseradminController::class , 'login'])->name('login');
+Route::post('/login',[UseradminController::class , 'loginpost'])->name('loginpost');
+
 Route::view('third', 'third');
+// Route::get('/dashboard',[UseradminController::class,'dashboard']);
+Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home');
+
 Route::view('company', 'company');
+
 Route::view('contact', 'contact');
+
 Route::view('about', 'about');
+
 Route::view('service', 'service');
+
 Route::view('career', 'career',['name'=> 'Syed AKkeal']);
