@@ -10,36 +10,42 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
 </head>
 <body>
-    <div class="mt-5">
-        @if($errors->any())
-          <div class="col-12">
-            @foreach($errors->all() as $error)
-                <div class="alert alert-danger">{{$error}}</div>
-            @endforeach
-          </div>
-        @endif
 
-        @if(session()->has('error'))
-            <div class ="alert alert-danger">{{session('error')}}</div>
-        @endif
 
-        @if(session()->has('success'))
-            <div class ="alert alert-success">{{session('success')}}</div>
-        @endif
-
-    </div>
     <div class="container">
     <form method="POST" name="login" action="{{ route('loginpost') }}">
         {{ csrf_field() }}
 
+
+            @if(session()->has('error'))
+                <div class ="alert alert-danger">{{session('error')}}</div>
+            @endif
+
+            @if(session()->has('success'))
+                <div class ="alert alert-success">{{session('success')}}</div>
+            @endif
         <h1>Login</h1>
-        <label for="email">Email :</label>
-        <input type="text" class="login-input" name="email" placeholder="Email" autofocus="true"/><br>
-        <label for="password">Password :</label>
-        <input type="password" class="login-input" name="password" placeholder="Password" /><br>
+        <div class="form-group mb-2">
+            <label>Email : </label>
+            <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" autofocus="true" name="email" id="email"><br>
+            @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <p>{{ $message }}</p>
+                 </span>
+            @enderror
+        </div>
+        <div class="form-group mb-2">
+            <label>Password :</label>
+            <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" id="password"><br>
+            @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <p>{{ $message }}</p>
+                </span>
+            @enderror
+        </div>
         <input type="hidden" name="login_form" value="1" />
-        <input type="submit" value="Login" name="login" class="login-button"/>
-        <p>To Create an account? <a href="{{ url('register') }}">Register</a></p>
+        <input type="submit" value="Login" name="login" class="login-button"/><br>
+        <br><br><strong>To Create an account? <a href="{{ url('register') }}">Register</a></strong>
     </form>
     </div>
 </body>

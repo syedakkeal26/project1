@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TodoListController;
 use App\Http\Controllers\UseradminController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome',['name'=>'Syed Akkeal']);
 });
+
 
 Route::post('/saveItem',[TodoListController::class, 'saveItem'])->name('saveItem');
 
@@ -43,3 +45,17 @@ Route::view('about', 'about');
 Route::view('service', 'service');
 
 Route::view('career', 'career',['name'=> 'Syed AKkeal']);
+
+
+
+// Route::get('/dashboard', [UseradminController::class, 'dashboardview']);
+
+Route::group(['middleware'=>'auth'], function() {
+    Route::group(['middleware'=>'auth'], function()
+    {
+        Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home');
+    });
+
+});
+
+Route::get('/signout', [UseradminController::class, 'signOut'])->name('signout');

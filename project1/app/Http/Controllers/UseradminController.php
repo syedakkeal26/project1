@@ -9,6 +9,7 @@ use log;
 use App\Models\Useradmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Session;
 
 
 class UseradminController extends Controller
@@ -22,11 +23,19 @@ class UseradminController extends Controller
         }
 
         public function dashboard(){
-            $users = User::paginate(2);
+            $users = User::paginate(4);
             // return $users;
-            return view ('dashboard',['users'=>$users]);
-
+            return view ('/dashboard',['users'=>$users]);
         }
+
+        // public function index()
+        // {
+        // if (auth()->user()->user_type === 'admin') {
+        //     return redirect('/dashboard');
+        // } else {
+        //     return redirect('/login');
+        // }
+        // }
 
         function loginpost(Request $request){
             $request->validate([
@@ -42,6 +51,7 @@ class UseradminController extends Controller
         return redirect(route('login'))->with("error","Email and password Incorrect");
 
         }
+
 
         function registerpost(Request $request){
             $request->validate([
@@ -64,6 +74,24 @@ class UseradminController extends Controller
 
         }
 
+        public function dashboardview()
+        {
+            if(Auth::check()){
+                $users = User::get();
+                return view ('/dashboard',['users'=>$users]);
+            }
+
+            return redirect("login")->withSuccess('You are not allowed to access');
+        }
 
 
+        function signOut(){
+            \Illuminate\Support\Facades\Session::flush();
+            Auth::logout();
+            return redirect(route('login'));
+        }
 }
+
+
+
+

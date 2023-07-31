@@ -1,28 +1,51 @@
-.container{
-    padding-left: 800px;
-    color:rgb(10, 10, 10);
-    background-color:antiquewhite;
-    margin-top: 200px;
-    line-height: 3;
+
+h1,strong{
+    text-align: center;
 }
-.container1{
-    padding-left: 800px;
-    color:rgb(10, 10, 10);
-    background-color:antiquewhite;
-    margin-top: 200px;
-}
-.container2{
-    color:rgb(10, 10, 10);
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    text-align: left;
     margin-top: 200px;
 }
 
-.container3{
-    color:rgb(10, 10, 10);
-    margin-top: 200px;
+form {
+    border: 1px solid #1A33FF;
+    background: #ecf5fc;
+    padding: 40px 50px 45px;
 }
-
-.container4{
-    margin-top: 200px;
-    line-height: 3;
-    font-family: 'Times New Roman', Times, serif;
+.form-control:focus {
+    border-color: #000;
+    box-shadow: none;
+}
+label {
+    font-weight: 600;
+    padding-left: 50px;
+}
+.error {
+    color: red;
+    font-weight: 400;
+    display: block;
+    padding: 6px 0;
+    font-size: 14px;
+}
+.form-control.error {
+    border-color: red;
+    padding: .375rem .75rem;
+}
+p{
+    color: red;
+    padding-left: 75px;
+}
+div
+{
+    padding-bottom: 25px;
+}
+.form-btn{
+    margin-top: 20px;
+    margin-left: 150px;
+}
+.login-button{
+    margin-top: 20px;
+    margin-left: 150px;
 }
