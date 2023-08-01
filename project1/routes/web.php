@@ -47,6 +47,12 @@ Route::view('service', 'service');
 
 Route::view('career', 'career',['name'=> 'Syed AKkeal']);
 
+Route::get('sendemail',function(){
+    $data['email']= 'syedakkealsaj2604@gmail.com';
+
+    dispatch(new App\Jobs\SendEmailJob($data));
+    dd('Email Send Successfully.');
+});
 
 
 // Route::get('/dashboard', [UseradminController::class, 'dashboardview']);
