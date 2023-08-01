@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TodoListController;
 use App\Http\Controllers\UseradminController;
+use App\Models\Useradmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -51,11 +52,16 @@ Route::view('career', 'career',['name'=> 'Syed AKkeal']);
 // Route::get('/dashboard', [UseradminController::class, 'dashboardview']);
 
 Route::group(['middleware'=>'auth'], function() {
-    Route::group(['middleware'=>'auth'], function()
-    {
         Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home');
     });
 
-});
+// Route::get('/dashboard/delete/{{ $user->id }}',function(){
+//     return view('dashboard');
+// });
+
+Route::view('/dashboard/edit','edit');
+
+Route::get('/dashboard/{id}', [UseradminController::class,'getUserById']);
+Route::put('/dashboard/{id}', [UseradminController::class,'editid']);
 
 Route::get('/signout', [UseradminController::class, 'signOut'])->name('signout');

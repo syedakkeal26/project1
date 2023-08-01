@@ -23,7 +23,7 @@ class UseradminController extends Controller
         }
 
         public function dashboard(){
-            $users = User::paginate(4);
+            $users = User::paginate(10);
             // return $users;
             return view ('/dashboard',['users'=>$users]);
         }
@@ -74,23 +74,47 @@ class UseradminController extends Controller
 
         }
 
-        public function dashboardview()
+        public function getUserById($id)
         {
-            if(Auth::check()){
-                $users = User::get();
-                return view ('/dashboard',['users'=>$users]);
+            $user = User::find($id);
+
+            // return $result;
+            return view('edit', ['user' => $user]);
+        }
+
+        public function editid($id, Request $request)
+        {
+            // $request['id'] = $id;
+            // return $request;
+
+            // find
+            $user = User::find($id);
+
+            // set data
+            if (isset($request['name'])) {
+                $user->name = $request['name'];
+            }
+            if (isset($request['email'])) {
+                $user->email = $request['email'];
+            }
+            if (isset($request['user_type'])) {
+                $user->user_type = $request['user_type'];
             }
 
-            return redirect("login")->withSuccess('You are not allowed to access');
+            // update
+            $user->update();
+
+            // redirect to todo/id page
+            return redirect('/dashboard/' . $id);
         }
 
 
-        function signOut(){
-            \Illuminate\Support\Facades\Session::flush();
-            Auth::logout();
-            return redirect(route('login'));
-        }
-}
+            function signOut(){
+                \Illuminate\Support\Facades\Session::flush();
+                Auth::logout();
+                return redirect(route('login'));
+            }
+    }
 
 
 

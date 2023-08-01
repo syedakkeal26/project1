@@ -38,9 +38,9 @@
             <label>Password :</label>
             <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" id="password"><br>
             @error('password')
-                <span class="invalid-feedback" role="alert">
+                <div class="invalid-feedback" >
                     <p>{{ $message }}</p>
-                </span>
+                </div>
             @enderror
         </div>
         <input type="hidden" name="login_form" value="1" />
