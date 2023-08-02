@@ -13,10 +13,11 @@
         </h2>
     </center>
 
-    <p> Hello, Sir</p>
-    <p>you may create new Laravel projects by globally installing the Laravel installer via Composer. Or,
-         if you installed PHP and
-         Composer via Laravel Herd, the Laravel installer is already available to you
+    <p> Hello, @auth
+        {{ auth()->user()->name }}
+        @endauth</p>
+    <p>
+        You Register Successfully
     </p>
     <strong>  Thank you</strong>
 </body>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmailJob;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -62,13 +63,16 @@ class UseradminController extends Controller
             ]);
 
             $data['name'] = $request->name;
-            $data['email'] = $request->email;
+            $data['email'] =$request->email;
             $data['password'] = Hash::make($request->password);
             $data['user_type'] = $request->user_type;
             $user = User::create($data);
             if(!$user){
                 return redirect(route('register'))->with("error","Registerfailed");
             }
+                $data['email']=$request->email;
+                // dd($data);
+                dispatch(new SendEmailJob($data));
             return redirect(route('login'))->with("Success","Register Successfully");
 
 

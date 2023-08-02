@@ -1,22 +1,19 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                     You are login as a user role.
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Send Email</title>
+</head>
+<body>
+            <center>
+                <h2 style="padding: 25px;background: #e2e2e2;border-bottom: 6px green solid;">
+                    Email Sent Successfully
+                </h2>
+            <a href="{{ url('/dashboard') }}"> Dashboard</a><br>
+            <a href="{{ url('/Login') }}"> Login</a><br>
+            <a href="{{ url('/register') }}"> Register</a>
+        </center>
+</body>
+</html>

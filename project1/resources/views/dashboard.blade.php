@@ -12,20 +12,19 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/login') }}">Home
-                </a>
-
+                <a class="navbar-brand" href="{{ url('/login') }}">Home</a>
                 <div>
                     <div>
-                    <ul>
-                        <a class="nav-link" href="{{ route('signout') }}">Logout</a>
-                       </ul>
-                        <div>
-                        @auth
-                        {{ auth()->user()->name }}
-                        @endauth
-                        </div>
 
+                        <div>
+                            <ul>
+                                <a class="nav-link" href="{{ route('signout') }}">Logout</a>
+                            </ul>
+                            {{-- @auth
+                            {{ auth()->user()->name }}
+                            @endauth --}}
+                        </div>
+                        <a class="nav-link" href="{{ url('/sendemail') }}">Send Email</a>
                     </div>
                 </div>
             </div>

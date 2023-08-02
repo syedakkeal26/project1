@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\TodoListController;
 use App\Http\Controllers\UseradminController;
+use App\Http\Controllers\MemberController;
+use App\Models\Address;
 use App\Models\Useradmin;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -47,19 +50,35 @@ Route::view('service', 'service');
 
 Route::view('career', 'career',['name'=> 'Syed AKkeal']);
 
-Route::get('sendemail',function(){
-    $data['email']= 'syedakkealsaj2604@gmail.com';
+Route::get('data',[MemberController::class,'index']);
+Route::get('data1',[MemberController::class,'data']);
 
-    dispatch(new App\Jobs\SendEmailJob($data));
-    dd('Email Send Successfully.');
-});
+Route::get('datas',[MemberController::class,'indexdata']);
 
 
 // Route::get('/dashboard', [UseradminController::class, 'dashboardview']);
 
 Route::group(['middleware'=>'auth'], function() {
         Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home');
+        Route::get('/sendemail',function(){
+        $data['email'][0]= 'syedakkealsaj2604@gmail.com';
+        $data['email'][1]='nithusugitamil@gmail.com';
+        // dd($data);
+        dispatch(new App\Jobs\SendEmailJob($data));
+        return view('home1');
+});
     });
+
+// Route::get('/user',function(){
+//    $address = Address::find(1);
+//    dd($address);
+// //    return view('users.index',compact('users'));
+// });
+// Route::get('/user',function(){
+//     $user = User::find(1);
+//     dd($user->address);
+//  //    return view('users.index',compact('users'));
+//  });
 
 // Route::get('/dashboard/delete/{{ $user->id }}',function(){
 //     return view('dashboard');
