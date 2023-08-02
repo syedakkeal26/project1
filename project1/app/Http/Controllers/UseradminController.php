@@ -71,7 +71,6 @@ class UseradminController extends Controller
                 return redirect(route('register'))->with("error","Registerfailed");
             }
                 $data['email']=$request->email;
-                // dd($data);
                 dispatch(new SendEmailJob($data));
             return redirect(route('login'))->with("Success","Register Successfully");
 
