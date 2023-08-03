@@ -61,7 +61,7 @@ Route::get('datas',[MemberController::class,'indexdata']);
 Route::group(['middleware'=>'auth'], function() {
         Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home');
         Route::get('/sendemail',function(){
-        $data['email'][0]= 'syedakkealsaj2604@gmail.com';
+        // $data['email'][0]= 'syedakkealsaj2604@gmail.com';
         $data['email'][1]='nithusugitamil@gmail.com';
         // dd($data);
         dispatch(new App\Jobs\SendEmailJob($data));
