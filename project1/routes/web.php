@@ -4,6 +4,8 @@ use App\Http\Controllers\TodoListController;
 use App\Http\Controllers\UseradminController;
 use App\Http\Controllers\MemberController;
 use App\Models\Address;
+use App\Models\Newuser;
+use App\Models\Role;
 use App\Models\Useradmin;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
@@ -55,13 +57,32 @@ Route::get('data1',[MemberController::class,'data']);
 
 Route::get('datas',[MemberController::class,'indexdata']);
 
+#many to many relationships
+Route::get('/data2',function(){
+    $user = Newuser::with('roles')->whereId(1)->first();
+    return($user);
+});
+#dd method
+Route::get('/data3',function(){
+    $role = Role::find(1);
+    $users = $role->users;
+    dd($users);
+});
+
+Route::get('/data4',function(){
+    $role = Role::with('users')->whereId(1)->first();
+    return ($role);
+});
+
+
+
 
 // Route::get('/dashboard', [UseradminController::class, 'dashboardview']);
 
 Route::group(['middleware'=>'auth'], function() {
         Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home');
         Route::get('/sendemail',function(){
-        // $data['email'][0]= 'syedakkealsaj2604@gmail.com';
+        $data['email'][0]= 'syedakkealsaj2604@gmail.com';
         $data['email'][1]='nithusugitamil@gmail.com';
         // dd($data);
         dispatch(new App\Jobs\SendEmailJob($data));

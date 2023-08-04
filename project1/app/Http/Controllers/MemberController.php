@@ -9,9 +9,8 @@ use Illuminate\Http\Request;
 class MemberController extends Controller
 {
     function index(){
-        return Member::find(1)->getCompany;
+        return Member::with('getCompany')->get();
     }
-
     function data(){
         return Company::find(1)->getMember;
     }
