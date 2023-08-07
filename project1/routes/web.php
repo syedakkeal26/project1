@@ -38,6 +38,9 @@ Route::post('/register',[UseradminController::class , 'registerpost'])->name('re
 Route::get('/login',[UseradminController::class , 'login'])->name('login');
 Route::post('/login',[UseradminController::class , 'loginpost'])->name('loginpost');
 
+Route::get('/adduser',[UseradminController::class , 'adduser'])->name('adduser');
+Route::post('/adduser',[UseradminController::class , 'adduserpost'])->name('adduserpost');
+
 Route::view('third', 'third');
 // Route::get('/dashboard',[UseradminController::class,'dashboard']);
 Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home');
@@ -82,9 +85,8 @@ Route::get('/data4',function(){
 Route::group(['middleware'=>'auth'], function() {
         Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home');
         Route::get('/sendemail',function(){
-        $data['email'][0]= 'syedakkealsaj2604@gmail.com';
-        $data['email'][1]='nithusugitamil@gmail.com';
-        // dd($data);
+        // $data['email'][0]= 'syedakkealsaj2604@gmail.com';
+        $data['email']='juniath26@yopmail.com';
         dispatch(new App\Jobs\SendEmailJob($data));
         return view('home1');
 });
@@ -109,5 +111,8 @@ Route::view('/dashboard/edit','edit');
 
 Route::get('/dashboard/{id}', [UseradminController::class,'getUserById']);
 Route::put('/dashboard/{id}', [UseradminController::class,'editid']);
+
+## Delete
+Route::get('/dashboard/delete/{id}', [UseradminController::class,'destroy'])->name('users.delete');
 
 Route::get('/signout', [UseradminController::class, 'signOut'])->name('signout');

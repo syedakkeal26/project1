@@ -12,34 +12,43 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
+
                 <a class="navbar-brand" href="{{ url('/login') }}">Home</a>
+                {{-- {{ auth()->user()->user_type}} --}}
                 <div>
                     <div>
 
                         <div>
-                            <ul>
-                                <a class="nav-link" href="{{ route('signout') }}">Logout</a>
-                            </ul>
-                            {{-- @auth
-                            {{ auth()->user()->name }}
-                            @endauth --}}
+                            {{ auth()->user()->email}}
+                            <a class="nav-link" href="{{ route('signout') }}">Logout</a>
                         </div>
-                        <a class="nav-link" href="{{ url('/sendemail') }}">Send Email</a>
                     </div>
                 </div>
             </div>
         </nav>
 
     <nav style="background-color: #e3f2fd;">
-         <div class="btn-group btn-group-sm float-right">
+         <div class="btn-group btn-group-sm float-left">
 
             <span class="navbar-toggler-icon"></span>
+            <a class="btn btn-success" href="{{ url('/sendemail') }}">Send Email</a>
         </div>
         </nav>
 
 <div>
     <table class="table table-hover progress-table text-center">
-        <header  >
+            <div class="col-lg-12 margin-tb">
+                <div class='table table-hover progress-table text-center '>
+                    <h3> List Of Users</h3>
+                </div>
+                <div class="col-lg-2 pull-right ">
+                    <a class="btn btn-success " href={{ route('adduser') }}> Add New</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+        <header>
             <th>Id</th>
             <th>Name</th>
             <th>Email</th>
@@ -53,13 +62,11 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->user_type }}</td>
-                <td><div class="btn-group btn-group-sm float-right" role="group" aria-label="Basic example">
-                    <a href='/dashboard/{{ $user->id }}'
-                       class="btn btn-secondary"><i class="fa fa-pencil"></i></a>
+                <td><div class="btn-group btn-group-sm float-right btn btn-sm btn-info" role="group" aria-label="Basic example">
+                    <a href='/dashboard/{{ $user->id }}'><i class="fa fa-pencil"></i></a>
                   </div>
-                  <div class="btn-group btn-group-sm float-right" role="group" aria-label="Basic example">
-                    <a href='/dashboard/{{ $user->id }}'
-                       class="btn btn-secondary"><i class="fa fa-trash"></i></a>
+                  <div class="btn-group btn-group-sm float-right btn btn-sm btn-danger " onclick="return confirm('Confirm To Delete?')" role="group" aria-label="Basic example">
+                    <a href="{{ route('users.delete', $user->id) }}"><i class="fa fa-trash"></i></a>
                   </div></td>
 
             </tr>

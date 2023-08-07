@@ -6,11 +6,14 @@ use App\Jobs\SendEmailJob;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use log;
 use App\Models\Useradmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Session;
+
+use Illuminate\Support\Facades\Validator;
 
 
 class UseradminController extends Controller
@@ -24,7 +27,7 @@ class UseradminController extends Controller
         }
 
         public function dashboard(){
-            $users = User::paginate(5);
+            $users = User::paginate(8);
             // return $users;
             return view ('/dashboard',['users'=>$users]);
         }
@@ -56,10 +59,10 @@ class UseradminController extends Controller
 
         function registerpost(Request $request){
             $request->validate([
-                'name' => 'required',
-                'email'=> 'required|email|unique:users',
-                'password'=> 'required',
-                'user_type'=> 'required'
+                'name' => 'required|string|max:255',
+                'email'=> 'required|email|unique:useradmins',
+                'password'=> 'required|string',
+                'user_type'=> 'required|in:admin,user',
             ]);
 
             $data['name'] = $request->name;
@@ -68,14 +71,34 @@ class UseradminController extends Controller
             $data['user_type'] = $request->user_type;
             $user = User::create($data);
             if(!$user){
-                return redirect(route('register'))->with("error","Registerfailed");
+                return redirect(route('register'));
             }
                 $data['email']=$request->email;
                 dispatch(new SendEmailJob($data));
-            return redirect(route('login'))->with("Success","Register Successfully");
+            return redirect(route('login'));
 
 
         }
+
+        function adduser(){
+            return view('add');
+        }
+
+        public function adduserpost(Request $request){
+            $request->validate([
+                'name' => 'required',
+                'email'=> 'required|email|unique:useradmins',
+                'user_type'=> 'required|in:admin,user',
+            ]);
+            $postdata = $request->all();
+            User::create($postdata);
+            if($postdata){
+             return redirect(route('home'));
+            }
+
+        }
+
+
 
         public function getUserById($id)
         {
@@ -85,6 +108,7 @@ class UseradminController extends Controller
             return view('edit', ['user' => $user]);
         }
 
+        // update
         public function editid($id, Request $request)
         {
             // $request['id'] = $id;
@@ -104,14 +128,19 @@ class UseradminController extends Controller
                 $user->user_type = $request['user_type'];
             }
 
-            // update
+
             $user->update();
 
-            // redirect to todo/id page
-            return redirect('/dashboard/' . $id);
+            return redirect('/dashboard/');
         }
+        // Delete
+        public function destroy($id)
+        {
+            $user=User::find($id);
+            $user->delete();
 
-
+            return redirect('/dashboard/');
+        }
             function signOut(){
                 \Illuminate\Support\Facades\Session::flush();
                 Auth::logout();

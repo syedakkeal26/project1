@@ -11,13 +11,10 @@
    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
 </head>
 <body>
-    <div class="container mt-5">
-        @if(Session::has('success'))
-            <div class="alert alert-success text-center">
-                {{Session::get('success')}}
-            </div>
-        @endif
+
+
     <div class="container">
+       
     <form method="POST" name="register" action="{{ route('registerpost') }}">
     {{ csrf_field() }}
     <h1>Register</h1>
@@ -38,6 +35,7 @@
                 <p>{{ $message }}</p>
              </span>
         @enderror
+
     </div>
     <div class="form-group mb-2">
         <label>Password :</label>
@@ -53,11 +51,11 @@
          <option value="admin">Admin</option>
          <option value="user">User</option>
       </select><br>
+      <input type="hidden" name="Register" value="1" />
       <input type="submit" name="submit" value="Submit" class="form-btn">
       <br><br><strong>Already have an account? <a href="{{ url('login') }}">Login now</a></strong>
-   </form>
+   </form></div>
 
-</div>
 
 </body>
 </html>

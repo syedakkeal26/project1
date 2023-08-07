@@ -49,3 +49,7 @@ div
     margin-top: 20px;
     margin-left: 150px;
 }
+.navbar-brand
+{
+    text-align: center;
+}
