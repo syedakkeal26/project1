@@ -14,7 +14,7 @@
 
 
     <div class="container">
-       
+
     <form method="POST" name="register" action="{{ route('registerpost') }}">
     {{ csrf_field() }}
     <h1>Register</h1>
@@ -22,29 +22,23 @@
         <label>Name : </label>
         <input type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Enter your name" name="name" id="name"><br>
         @error('name')
-            <span class="invalid-feedback" role="alert">
-                <p>{{ $message }}</p>
-            </span>
-        @enderror
+              <span class="text-danger" role="alert">{{ $message }}</span>
+          @enderror
       </div>
       <div class="form-group mb-2">
         <label>Email : </label>
         <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter your email" name="email" id="email"><br>
         @error('email')
-            <span class="invalid-feedback" role="alert">
-                <p>{{ $message }}</p>
-             </span>
-        @enderror
+              <span class="text-danger" role="alert">{{ $message }}</span>
+          @enderror
 
     </div>
     <div class="form-group mb-2">
         <label>Password :</label>
         <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Enter password"name="password" id="password"><br>
         @error('password')
-            <span class="invalid-feedback" role="alert">
-                <p>{{ $message }}</p>
-            </span>
-        @enderror
+              <span class="text-danger" role="alert">{{ $message }}</span>
+          @enderror
     </div>
       <label for="text">User Type :</label>
       <select name="user_type">

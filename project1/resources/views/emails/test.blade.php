@@ -13,9 +13,7 @@
         </h2>
     </center>
 
-    <p> Hello, @auth
-        {{ auth()->user()->name }}
-        @endauth</p>
+    <p> Hello,</p>
     <p>
         You Register Successfully
     </p>

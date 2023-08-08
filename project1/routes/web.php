@@ -3,6 +3,8 @@
 use App\Http\Controllers\TodoListController;
 use App\Http\Controllers\UseradminController;
 use App\Http\Controllers\MemberController;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
 use App\Models\Address;
 use App\Models\Newuser;
 use App\Models\Role;
@@ -78,6 +80,31 @@ Route::get('/data4',function(){
 });
 
 
+//resources
+
+// Route::get('/user/{id}', [UseradminController::class, 'getUser']);
+
+Route::get('/user', [UseradminController::class, 'getUsers']);
+//
+// Route::get('/user/{id}', function (string $id) {
+//     return new UserResource(User::findOrFail($id));
+// });
+
+Route::get('/users', function () {
+    return UserResource::collection(User::all());
+});
+
+Route::get('/users', function () {
+    return new UserCollection(User::all());
+});
+
+Route::get('/users', function () {
+    return UserResource::collection(User::all()->keyBy->id);
+});
+
+Route::get('/user/{id}', function ($id) {
+    return new UserResource(User::findOrFail($id));
+});
 
 
 // Route::get('/dashboard', [UseradminController::class, 'dashboardview']);
@@ -86,7 +113,7 @@ Route::group(['middleware'=>'auth'], function() {
         Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home');
         Route::get('/sendemail',function(){
         // $data['email'][0]= 'syedakkealsaj2604@gmail.com';
-        $data['email']='juniath26@yopmail.com';
+        $data['email']='nithusugitamil@gmail.com';
         dispatch(new App\Jobs\SendEmailJob($data));
         return view('home1');
 });

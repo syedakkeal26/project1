@@ -29,18 +29,15 @@
             <label>Email : </label>
             <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" autofocus="true" name="email" id="email"><br>
             @error('email')
-                <span class="invalid-feedback" role="alert">
-                    <p>{{ $message }}</p>
-                 </span>
+                <span class="invalid-feedback" role="alert">{{ $message }}</span>
             @enderror
         </div>
         <div class="form-group mb-2">
             <label>Password :</label>
             <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" id="password"><br>
             @error('password')
-                <div class="invalid-feedback" >
-                    <p>{{ $message }}</p>
-                </div>
+                <span class="invalid-feedback" >{{ $message }}
+                </span>
             @enderror
         </div>
         <input type="hidden" name="login_form" value="1" />
