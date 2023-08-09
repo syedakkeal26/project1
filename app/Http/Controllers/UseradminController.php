@@ -55,8 +55,6 @@ class UseradminController extends Controller
                 'email'=> 'required',
                 'password'=> 'required'
             ]);
-
-
         $credentials = $request->only('email','password');
         if(Auth::attempt($credentials)){
             return redirect()->intended(route('home'));
@@ -85,8 +83,6 @@ class UseradminController extends Controller
                 $data['email']=$request->email;
                 dispatch(new SendEmailJob($data));
             return redirect(route('login'));
-
-
         }
 
         function adduser(){
