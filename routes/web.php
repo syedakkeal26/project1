@@ -107,8 +107,9 @@ Route::get('/user/{id}', function ($id) {
 
 
 // Route::get('/dashboard', [UseradminController::class, 'dashboardview']);
-Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home')->middleware('is_admin');
 Route::group(['middleware'=>'auth'], function() {
+    Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home')->middleware('is_admin');
+
         Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home');
         Route::get('/sendemail',function(){
         // $data['email'][0]= 'syedakkealsaj2604@gmail.com';

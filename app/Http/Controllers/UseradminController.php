@@ -29,7 +29,7 @@ class UseradminController extends Controller
         }
 
         public function dashboard(){
-            $users = User::paginate(8);
+            $users = User::latest()->paginate(8);
             // return $users;
             return view ('/dashboard',['users'=>$users]);
         }
