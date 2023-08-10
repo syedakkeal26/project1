@@ -6,19 +6,37 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Add User</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" >
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 </head>
 <body>
+    <div id="app">
+    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/dashboard') }}">Home</a>
+            <div>
+                <div>
+                    <div>
+                        {{ auth()->user()->email}}
+                        <a class="nav-link" href="{{ route('signout') }}">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <nav style="background-color: #e3f2fd;">
+        <div class=" btn-group-sm">
+            <span class="navbar-toggler-icon"></span>
+        </div>
+    </nav>
 
 <div class="container">
 
   <div class="row">
     <div class="col-xs-12 col-sm-6 offset-sm-3 col-md-6 offset-md-3">
-
       <div class="my-3">
-
-
-        <form method="POST" action="{{ route('adduserpost') }}">
+     <form method="POST" action="{{ route('adduserpost') }}">
             {{ csrf_field() }}
 
             <h1 class="text-center">Add User</h1>

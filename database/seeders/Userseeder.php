@@ -2,10 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class Userseeder extends Seeder
 {
@@ -14,33 +17,25 @@ class Userseeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('useradmins')->insert(
+        $users=[[
+            'name' => 'Saj',
+            'email' => 'panda123@gmail.com',
+            'password' => Hash::make('123'),
+            'user_type' => 'admin',
+            ],
             [
-             [
-             'name' => 'saj',
-             'email' => 'saj@gmail.com',
-             'password' => '123',
-             'user_type' => 'admin',
-             'created_at'=>Carbon::now(),
-             'updated_at'=>Carbon::now()
-             ],
-             [
-                'name' => 'Syed',
-                'email' => 'saj264@gmail.com',
-                'password' => '1234',
-                'user_type' => 'user',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now()
-             ],
-             [
-                'name' => 'Ju',
-                'email' => 'saj26@gmail.com',
-                'password' => '786',
-                'user_type' => 'user',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now()
-            ]
-            ]
-             );
+            'name' => 'SyedSaj26',
+            'email' => 'syedsaj26@gmail.com',
+            'password' => Hash::make('123'),
+            'user_type' => 'admin',
+            ],
+            [
+            'name' => 'Ju',
+            'email' => 'Ju123@gmail.com',
+            'password' => Hash::make('123'),
+            'user_type' => 'admin'
+            ]];
+        User::insert($users);
+        // DB::table('useradmins')->insert($users);
     }
 }

@@ -14,7 +14,7 @@ class Adminseeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('admins')->insert(
+        DB::table('users')->insert(
            [
             [
             'created_at'=>Carbon::now(),

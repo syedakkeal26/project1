@@ -12,12 +12,9 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-
                 <a class="navbar-brand" href="{{ url('/login') }}">Home</a>
-                {{-- {{ auth()->user()->user_type}} --}}
                 <div>
                     <div>
-
                         <div>
                             {{ auth()->user()->email}}
                             <a class="nav-link" href="{{ route('signout') }}">Logout</a>
@@ -26,17 +23,15 @@
                 </div>
             </div>
         </nav>
-
-    <nav style="background-color: #e3f2fd;">
-         <div class="btn-group btn-group-sm float-left">
-
-            <span class="navbar-toggler-icon"></span>
-            <a class="btn btn-success" href="{{ url('/sendemail') }}">Send Email</a>
-        </div>
+        <nav style="background-color: #e3f2fd;">
+            <div class=" btn-group-sm">
+                <span class="navbar-toggler-icon"></span>
+                <a class="btn btn-success" href="{{ url('/sendemail') }}">Send Email</a>
+            </div>
         </nav>
 
-<div>
-    <table class="table table-hover progress-table text-center">
+<div class="table-responsive">
+    <table class="table table-hover progress-table text-center" >
             <div class="col-lg-12 margin-tb">
                 <div class='table table-hover progress-table text-center '>
                     <h3> List Of Users</h3>

@@ -29,7 +29,7 @@ class UseradminController extends Controller
         }
 
         public function dashboard(){
-            $users = User::latest()->paginate(8);
+            $users = User::orderBy('id', 'DESC')->paginate(8);
             // return $users;
             return view ('/dashboard',['users'=>$users]);
         }
@@ -57,10 +57,15 @@ class UseradminController extends Controller
             ]);
         $credentials = $request->only('email','password');
         if(Auth::attempt($credentials)){
-            return redirect()->intended(route('home'));
+            if (Auth::user()->user_type == 'admin'){
+                return redirect()->intended(route('home'));
+            }
+            else{
+                return redirect()->intended(route('company'));
+            }
+
         }
         return redirect(route('login'))->with("error","Email and password Incorrect");
-
         }
 
 
@@ -68,14 +73,13 @@ class UseradminController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email'=> 'required|email|unique:useradmins',
-                'password'=> 'required|string',
-                'user_type'=> 'required|in:admin,user',
+                'password'=> 'required|string|',
             ]);
 
             $data['name'] = $request->name;
             $data['email'] =$request->email;
             $data['password'] = Hash::make($request->password);
-            $data['user_type'] = $request->user_type;
+            $data['user_type'] = 'user';
             $user = User::create($data);
             if(!$user){
                 return redirect(route('register'));
@@ -93,8 +97,11 @@ class UseradminController extends Controller
             $request->validate([
                 'name' => 'required',
                 'email'=> 'required|email|unique:useradmins',
+                // 'password' => 'string',
                 'user_type'=> 'required|in:admin,user',
+
             ]);
+            // $postdata['password'] = Hash::make('user');
             $postdata = $request->all();
             User::create($postdata);
             if($postdata){
@@ -105,10 +112,10 @@ class UseradminController extends Controller
 
 
 
-        public function getUserById($id)
+        public function getUserById($id )
         {
-            $user = User::find($id);
 
+            $user = User::find($id);
             // return $result;
             return view('edit', ['user' => $user]);
         }
@@ -119,22 +126,18 @@ class UseradminController extends Controller
             // $request['id'] = $id;
             // return $request;
 
-            // find
-            $user = User::find($id);
 
-            // set data
-            if (isset($request['name'])) {
-                $user->name = $request['name'];
-            }
-            if (isset($request['email'])) {
-                $user->email = $request['email'];
-            }
-            if (isset($request['user_type'])) {
-                $user->user_type = $request['user_type'];
-            }
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => 'required|unique:useradmins,email,' . $id,
+                'user_type'=> 'required|in:admin,user',
 
+            ]);
+            $user = $request->all();
 
-            $user->update();
+            User::find($id)->update($user);
+
+            // $user->update();
 
             return redirect('/dashboard/');
         }
@@ -147,7 +150,7 @@ class UseradminController extends Controller
             return redirect('/dashboard/');
         }
             function signOut(){
-                \Illuminate\Support\Facades\Session::flush();
+            \Illuminate\Support\Facades\Session::flush();
                 Auth::logout();
                 return redirect(route('login'));
             }

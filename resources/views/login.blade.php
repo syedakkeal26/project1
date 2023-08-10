@@ -13,28 +13,31 @@
 
 
     <div class="container">
+
+
     <form method="POST" name="login" action="{{ route('loginpost') }}">
         {{ csrf_field() }}
-
-
+         <div class="">
             @if(session()->has('error'))
-                <div class ="alert alert-danger">{{session('error')}}</div>
+                <div class ="alert alert-danger col-xs-12 col-sm-6 offset-sm-3 col-md-6 offset-md-9">{{session('error')}}</div>
             @endif
 
             @if(session()->has('success'))
                 <div class ="alert alert-success">{{session('success')}}</div>
             @endif
+        </div>
         <h1>Login</h1>
+
         <div class="form-group mb-2">
             <label>Email : </label>
-            <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" autofocus="true" name="email" id="email"><br>
+            <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}" autofocus="true" name="email" id="email"><br>
             @error('email')
                 <span class="invalid-feedback" role="alert">{{ $message }}</span>
             @enderror
         </div>
         <div class="form-group mb-2">
             <label>Password :</label>
-            <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" id="password"><br>
+            <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" value="{{ old('password') }}"name="password" id="password"><br>
             @error('password')
                 <span class="invalid-feedback" >{{ $message }}
                 </span>
