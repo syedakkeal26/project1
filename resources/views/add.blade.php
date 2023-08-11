@@ -36,20 +36,20 @@
   <div class="row">
     <div class="col-xs-12 col-sm-6 offset-sm-3 col-md-6 offset-md-3">
       <div class="my-3">
-     <form method="POST" action="{{ route('adduserpost') }}">
+     <form method="POST" action="{{ route('admin.store') }}">
             {{ csrf_field() }}
 
             <h1 class="text-center">Add User</h1>
             <div class="form-group">
               <label for="name" class="control-label">Name :</label>
-              <input type="text" name="name" id="name" class="form-control"  placeholder="Enter your name" maxlength="100" >
+              <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}"  placeholder="Enter your name" maxlength="100" >
               @error('name')
               <span class="text-danger" role="alert">{{ $message }}</span>
           @enderror
         </div>
             <div class="form-group">
               <label for="email" class="control-label">Email :</label>
-              <input type="text" name="email" id="email"  class="form-control"placeholder="Enter your email" >
+              <input type="text" name="email" id="email"  class="form-control" {{ old('email') }}placeholder="Enter your email" >
               @error('email')
               <span class="text-danger" role="alert">{{ $message }}</span>
           @enderror
@@ -70,7 +70,7 @@
                 <div class="col-md-6">
                    <input type="submit" name="Add" value='Add User' class='btn btn-success col-xs-12 col-sm-6 offset-sm-3 col-md-6 offset-md-9'>
                 </div><br>
-                <a class="col-xs-12 col-sm-6 offset-sm-3 col-md-6 offset-md-5" style="text-center" href="{{ url('/dashboard') }}">Back
+                <a class="col-xs-12 col-sm-6 offset-sm-3 col-md-6 offset-md-5" style="text-center" href="{{ url('/admin') }}">Back
                 </a>
             </div>
 

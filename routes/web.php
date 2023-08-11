@@ -28,20 +28,23 @@ Route::get('/', function () {
     return view('welcome',['name'=>'Syed Akkeal']);
 });
 
-
+//-----------------Example todolist -------------------
 Route::post('/saveItem',[TodoListController::class, 'saveItem'])->name('saveItem');
 
 Route::view('first','index');
 
+
+//----------------login route--------------------
+
+Route::get('/login',[UseradminController::class , 'login'])->name('login');
+Route::post('/loginpost',[UseradminController::class , 'loginpost'])->name('loginpost');
+
+//----------------Register route---------------------
+
 Route::get('/register',[UseradminController::class , 'register'])->name('register');
 Route::post('/register',[UseradminController::class , 'registerpost'])->name('registerpost');
 
-
-
-
-// Route::get('/dashboard',[UseradminController::class,'dashboard']);
-Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home');
-
+//---------------------------------------------------
 
 Route::view('contact', 'contact');
 
@@ -72,17 +75,7 @@ Route::get('/data4',function(){
     $role = Role::with('users')->whereId(1)->first();
     return ($role);
 });
-
-
-//resources
-
-// Route::get('/user/{id}', [UseradminController::class, 'getUser']);
-
-Route::get('/user', [UseradminController::class, 'getUsers']);
-//
-// Route::get('/user/{id}', function (string $id) {
-    //     return new UserResource(User::findOrFail($id));
-    // });
+//---------------------------------------------------------
 
 Route::get('/users', function () {
     return UserResource::collection(User::all());
@@ -100,27 +93,24 @@ Route::get('/user/{id}', function ($id) {
     return new UserResource(User::findOrFail($id));
 });
 
-
-// Route::get('/dashboard', [UseradminController::class, 'dashboardview']);
+//---------------------------------------------------
 Route::group(['middleware'=>'auth'], function() {
-//------------admin route--------------------
+
+//------------admin route--------------------------
+
     Route::group(['middleware'=>'is_admin'], function() {
-        Route::get('/dashboard',[UseradminController::class,'dashboard'])->name('home');
         Route::get('/sendemail',function(){
         // $data['email'][0]= 'syedakkealsaj2604@gmail.com';
         $data['email']='nithusugitamil@gmail.com';
         dispatch(new App\Jobs\SendEmailJob($data));
         return view('home1');});
-        Route::get('/adduser',[UseradminController::class , 'adduser'])->name('adduser');
-        Route::post('/adduser',[UseradminController::class , 'adduserpost'])->name('adduserpost');
-        Route::view('/dashboard/edit','edit');
-        Route::get('/dashboard/{id}', [UseradminController::class,'getUserById']);
-        Route::put('/dashboard/{id}', [UseradminController::class,'editid']);
-        ## Delete
-        Route::get('/dashboard/delete/{id}', [UseradminController::class,'destroy'])->name('users.delete');
+// --------------------Resource route---------------
 
-        });
-//-----------------user route-----------
+        Route::resource('admin', UseradminController::class);
+    });
+
+//-----------------user route-----------------------
+
     Route::group(['middleware'=>'is_user'], function() {
         Route::view('user', 'user')->name('company');
 });

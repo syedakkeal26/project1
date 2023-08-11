@@ -37,14 +37,14 @@
                     <h3> List Of Users</h3>
                 </div>
                 <div class="col-lg-2 pull-right ">
-                    <a class="btn btn-success " href={{ route('adduser') }}> Add New</a>
+                    <a class="btn btn-success " href={{ route('admin.create') }}> Add New</a>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
         <header>
-            <th>Id</th>
+            <th>#</th>
             <th>Name</th>
             <th>Email</th>
             <th>UserType</th>
@@ -57,13 +57,17 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->user_type }}</td>
-                <td><div class="btn-group btn-group-sm float-right btn btn-sm btn-info" role="group" aria-label="Basic example">
-                    <a href='/dashboard/{{ $user->id }}'><i class="fa fa-pencil"></i></a>
-                  </div>
-                  <div class="btn-group btn-group-sm float-right btn btn-sm btn-danger " onclick="return confirm('Confirm To Delete?')" role="group" aria-label="Basic example">
-                    <a href="{{ route('users.delete', $user->id) }}"><i class="fa fa-trash"></i></a>
-                  </div></td>
-
+                <td>
+                <form action="{{ route('admin.edit', $user->id)}}" method="GET">
+                  @csrf
+                  <button class="btn-group btn-group-sm float-right btn btn-sm btn-success " type="submit"><i class="fa fa-pencil"></i></button>
+                </form>
+                <form action="{{ route('admin.destroy', $user->id)}}" method="post">
+                  @csrf
+                  @method('DELETE')
+                  <button class="btn-group btn-group-sm float-right btn btn-sm btn-danger " type="submit"><i class="fa fa-trash"></i></button>
+                </form>
+                </td>
             </tr>
             @endforeach
 

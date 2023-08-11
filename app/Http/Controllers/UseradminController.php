@@ -2,160 +2,149 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UserCollection;
-use App\Http\Resources\UserResource;
 use App\Jobs\SendEmailJob;
-use App\Models\User;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
-use log;
-use App\Models\Useradmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Session;
-
-use Illuminate\Support\Facades\Validator;
-
-
+use Illuminate\Support\Facades\Session;
+use App\Models\Useradmin;
 class UseradminController extends Controller
 {
-        function login(){
-            return view ('login');
-        }
+    /**
+     * Display a listing of the resource.
+     */
 
-        function register(){
-            return view ('register');
-        }
-
-        public function dashboard(){
-            $users = User::orderBy('id', 'DESC')->paginate(8);
-            // return $users;
-            return view ('/dashboard',['users'=>$users]);
-        }
-       //resources
-        public function getUser($id) {
-            $user = User::query()->find($id);
-
-
-            if (!$user) {
-                return response()->json(['success' => false, 'message' => 'User does not exist']);
-            }
-
-            return response()->json(['success' => true, 'user' => new UserResource($user)]);
-        }
-
-        public function getUsers () {
-            $users = User::query()->get();
-            // dd($users);
-            return response()->json(['success' => true, 'users' => new UserCollection($users)]);
-        }
-        function loginpost(Request $request){
-            $request->validate([
-                'email'=> 'required',
-                'password'=> 'required'
-            ]);
-        $credentials = $request->only('email','password');
-        if(Auth::attempt($credentials)){
-            if (Auth::user()->user_type == 'admin'){
-                return redirect()->intended(route('home'));
-            }
-            else{
-                return redirect()->intended(route('company'));
-            }
-
-        }
-        return redirect(route('login'))->with("error","Email and password Incorrect");
-        }
-
-
-        function registerpost(Request $request){
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'email'=> 'required|email|unique:useradmins',
-                'password'=> 'required|string|',
-            ]);
-
-            $data['name'] = $request->name;
-            $data['email'] =$request->email;
-            $data['password'] = Hash::make($request->password);
-            $data['user_type'] = 'user';
-            $user = User::create($data);
-            if(!$user){
-                return redirect(route('register'));
-            }
-                $data['email']=$request->email;
-                dispatch(new SendEmailJob($data));
-            return redirect(route('login'));
-        }
-
-        function adduser(){
-            return view('add');
-        }
-
-        public function adduserpost(Request $request){
-            $request->validate([
-                'name' => 'required',
-                'email'=> 'required|email|unique:useradmins',
-                // 'password' => 'string',
-                'user_type'=> 'required|in:admin,user',
-
-            ]);
-            // $postdata['password'] = Hash::make('user');
-            $postdata = $request->all();
-            User::create($postdata);
-            if($postdata){
-             return redirect(route('home'));
-            }
-
-        }
-
-
-
-        public function getUserById($id )
-        {
-
-            $user = User::find($id);
-            // return $result;
-            return view('edit', ['user' => $user]);
-        }
-
-        // update
-        public function editid($id, Request $request)
-        {
-            // $request['id'] = $id;
-            // return $request;
-
-
-            $this->validate($request, [
-                'name' => 'required',
-                'email' => 'required|unique:useradmins,email,' . $id,
-                'user_type'=> 'required|in:admin,user',
-
-            ]);
-            $user = $request->all();
-
-            User::find($id)->update($user);
-
-            // $user->update();
-
-            return redirect('/dashboard/');
-        }
-        // Delete
-        public function destroy($id)
-        {
-            $user=User::find($id);
-            $user->delete();
-
-            return redirect('/dashboard/');
-        }
-            function signOut(){
-            \Illuminate\Support\Facades\Session::flush();
-                Auth::logout();
-                return redirect(route('login'));
-            }
+    public function login(){
+        return view ('login');
     }
 
+    public function register(){
+        return view ('register');
+    }
 
+    public function loginpost(Request $request){
+        $request->validate([
+            'email'=> 'required',
+            'password'=> 'required'
+        ]);
+    $credentials = $request->only('email','password');
+    if(Auth::attempt($credentials)){
+        if (Auth::user()->user_type == 'admin'){
+            return redirect()->intended(route('admin.index'));
+        }
+        else{
+            return redirect()->intended(route('company'));
+        }
+    }
+    return redirect(route('login'))->with("error","Email and password Incorrect");
+    }
 
+    function registerpost(Request $request){
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email'=> 'required|email|unique:useradmins',
+            'password'=> 'required|string|',
+        ]);
 
+        $data['name'] = $request->name;
+        $data['email'] =$request->email;
+        $data['password'] = Hash::make($request->password);
+        $data['user_type'] = 'user';
+        $user = User::create($data);
+        if(!$user){
+            return redirect(route('register'));
+        }
+            $data['email']=$request->email;
+            dispatch(new SendEmailJob($data));
+        return redirect(route('login'));
+    }
+
+     public function index()
+    {
+        $users = Useradmin::orderBy('id', 'DESC')->paginate(6);
+        return view ('dashboard',['users'=>$users]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+      *///function adduser(){
+    //         return view('add');
+    //  }
+    public function create(Request $request)
+
+            {
+                return view('add');
+            }
+
+            /**
+             * Store a newly created resource in storage.
+             */
+            public function store(Request $request)
+            {
+                $request->validate([
+                    'name' => 'required',
+                    'email'=> 'required|email|unique:useradmins',
+                    'user_type'=> 'required|in:admin,user',
+                ]);
+                // $postdata ->forceFill([
+                //     'password' => Hash::make('123')
+                // ]);
+                $postdata = $request->all();
+                Useradmin::create($postdata);
+                if($postdata){
+                 return redirect(route('admin.index'));
+                }
+                //
+            }
+
+            /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        return view('add');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $user = Useradmin::where('id',$id)->first();
+        return view('edit',compact('user')) ;
+   }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|unique:useradmins,email,' . $id,
+            'user_type'=> 'required|in:admin,user',
+        ]);
+        $user = $request->all();
+
+        Useradmin::find($id)->update($user);
+
+        // $user->update();
+
+        return redirect('/admin/');
+    }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $user=Useradmin::find($id);
+        $user->delete();
+        return redirect('/admin/');
+    }
+        function signOut(){
+        Session::flush();
+            Auth::logout();
+            return redirect(route('login'));
+        }
+}

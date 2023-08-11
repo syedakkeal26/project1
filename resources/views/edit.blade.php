@@ -39,7 +39,7 @@
 
         @if (isset($user))
 
-          <form action="/dashboard/{{ $user->id }}"  method="POST">
+          <form action="{{ route('admin.update', $user->id) }}"  method="POST">
             {{-- {{route('dashboard',[$user->id])}}" --}}
             {{ csrf_field() }}
 
@@ -78,7 +78,7 @@
                 <div class="col-md-6">
                    <input type="submit" name="update" value='Update' class='btn btn-success col-xs-12 col-sm-6 offset-sm-3 col-md-6 offset-md-9'>
                 </div><br>
-                <a class="col-xs-12 col-sm-6 offset-sm-3 col-md-6 offset-md-5" style="text-center" href="{{ url('/dashboard') }}">Back
+                <a class="col-xs-12 col-sm-6 offset-sm-3 col-md-6 offset-md-5" style="text-center" href="{{ url('/admin') }}">Back
                 </a>
             </div>
 

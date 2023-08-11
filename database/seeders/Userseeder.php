@@ -33,8 +33,14 @@ class Userseeder extends Seeder
             'name' => 'Ju',
             'email' => 'Ju123@gmail.com',
             'password' => Hash::make('123'),
-            'user_type' => 'admin'
-            ]];
+            'user_type' => 'admin',
+            ],
+        [
+            'name' => 'Juniath',
+            'email' => 'ju@gmail.com',
+            'password' => Hash::make('123'),
+            'user_type' => 'user',
+        ]];
         User::insert($users);
         // DB::table('useradmins')->insert($users);
     }
