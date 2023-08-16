@@ -11,7 +11,7 @@
                 <h2 style="padding: 25px;background: #e2e2e2;border-bottom: 6px green solid;">
                     Email Sent Successfully
                 </h2>
-            <a href="{{ url('/dashboard') }}"> Dashboard</a><br>
+            <a href="{{ url('/admin') }}"> Dashboard</a><br>
             <a href="{{ url('/Login') }}"> Login</a><br>
             <a href="{{ url('/register') }}"> Register</a>
         </center>

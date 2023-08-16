@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 // -------------- welcome index---------------------
 Route::get('/', function () {
     return view('welcome',['name'=>'Syed Akkeal']);
@@ -54,44 +55,12 @@ Route::view('service', 'service');
 
 Route::view('career', 'career',['name'=> 'Syed AKkeal']);
 
+//-------------------------------------------------------------
+
 Route::get('data',[MemberController::class,'index']);
 Route::get('data1',[MemberController::class,'data']);
 
 Route::get('datas',[MemberController::class,'indexdata']);
-
-#-----------many to many relationships-----------------------------------
-Route::get('/data2',function(){
-    $user = Newuser::with('roles')->whereId(1)->first();
-    return($user);
-});
-#dd method
-Route::get('/data3',function(){
-    $role = Role::find(1);
-    $users = $role->users;
-    dd($users);
-});
-
-Route::get('/data4',function(){
-    $role = Role::with('users')->whereId(1)->first();
-    return ($role);
-});
-//---------------------------------------------------------
-
-Route::get('/users', function () {
-    return UserResource::collection(User::all());
-});
-
-Route::get('/users', function () {
-    return new UserCollection(User::all());
-});
-
-Route::get('/users', function () {
-    return UserResource::collection(User::all()->keyBy->id);
-});
-
-Route::get('/user/{id}', function ($id) {
-    return new UserResource(User::findOrFail($id));
-});
 
 //---------------------------------------------------
 Route::group(['middleware'=>'auth'], function() {
@@ -99,11 +68,6 @@ Route::group(['middleware'=>'auth'], function() {
 //------------admin route--------------------------
 
     Route::group(['middleware'=>'is_admin'], function() {
-        Route::get('/sendemail',function(){
-        // $data['email'][0]= 'syedakkealsaj2604@gmail.com';
-        $data['email']='nithusugitamil@gmail.com';
-        dispatch(new App\Jobs\SendEmailJob($data));
-        return view('home1');});
 // --------------------Resource route---------------
 
         Route::resource('admin', UseradminController::class);

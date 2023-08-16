@@ -16,10 +16,13 @@ class SendEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
-    {
-        //
-    }
+
+     protected $data;
+
+     public function __construct($data)
+     {
+         $this->data = $data;
+     }
 
     /**
      * Get the message envelope.
@@ -27,7 +30,7 @@ class SendEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Mail From Syed Akkeal',
+            subject: 'Mail From Admin',
         );
     }
 

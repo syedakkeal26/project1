@@ -9,7 +9,7 @@ class Admin extends Model
 {
     use HasFactory;
 
-    protected $guard = "usersadmin";
+    protected $guard = "useradmins";
 
     protected $fillable = [
         'name',

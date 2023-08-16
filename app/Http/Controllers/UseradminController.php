@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Models\Useradmin;
 class UseradminController extends Controller
@@ -44,19 +45,22 @@ class UseradminController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email'=> 'required|email|unique:useradmins',
-            'password'=> 'required|string|',
+            'password' => 'required|string|confirmed|',
         ]);
 
         $data['name'] = $request->name;
         $data['email'] =$request->email;
         $data['password'] = Hash::make($request->password);
         $data['user_type'] = 'user';
-        $user = User::create($data);
+        $user = Useradmin::create($data);
         if(!$user){
             return redirect(route('register'));
         }
-            $data['email']=$request->email;
-            dispatch(new SendEmailJob($data));
+         $data['psw']=$request->password;
+            Mail::send('emails.test',$data,function($message) use($data){
+                $message->to($data['email']);
+                $message->subject('Message From Admin');
+            });
         return redirect(route('login'));
     }
 
@@ -77,24 +81,29 @@ class UseradminController extends Controller
                 return view('add');
             }
 
-            /**
-             * Store a newly created resource in storage.
-             */
-            public function store(Request $request)
+    public function store(Request $request)
             {
                 $request->validate([
                     'name' => 'required',
                     'email'=> 'required|email|unique:useradmins',
+                    'password'=> 'required|string',
                     'user_type'=> 'required|in:admin,user',
                 ]);
-                // $postdata ->forceFill([
-                //     'password' => Hash::make('123')
-                // ]);
-                $postdata = $request->all();
-                Useradmin::create($postdata);
-                if($postdata){
-                 return redirect(route('admin.index'));
+                $data['name'] = $request->name;
+                $data['email'] =$request->email;
+                $data['password'] = Hash::make($request->password);
+                $data['user_type'] = $request->user_type;
+                $newuser = Useradmin::create($data);
+                if(!$newuser){
+                    return redirect(route('admin.create'));
                 }
+                    $data['psw']=$request->password;
+                    Mail::send('emails.test',$data,function($message) use($data){
+                        $message->to($data['email']);
+                        $message->subject('Message From Admin');
+                    });
+                    return redirect(route('admin.index'));
+
                 //
             }
 
@@ -131,7 +140,7 @@ class UseradminController extends Controller
 
         // $user->update();
 
-        return redirect('/admin/');
+        return redirect('/admin');
     }
     /**
      * Remove the specified resource from storage.
@@ -140,7 +149,7 @@ class UseradminController extends Controller
     {
         $user=Useradmin::find($id);
         $user->delete();
-        return redirect('/admin/');
+        return redirect('/admin');
     }
         function signOut(){
         Session::flush();

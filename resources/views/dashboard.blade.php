@@ -26,7 +26,7 @@
         <nav style="background-color: #e3f2fd;">
             <div class=" btn-group-sm">
                 <span class="navbar-toggler-icon"></span>
-                <a class="btn btn-success" href="{{ url('/sendemail') }}">Send Email</a>
+                {{-- <a class="btn btn-success" href="{{ url('/sendemail') }}">Send Email</a> --}}
             </div>
         </nav>
 

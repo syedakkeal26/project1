@@ -6,11 +6,11 @@ h1,strong{
     max-width: 500px;
     margin: 50px auto;
     text-align: left;
-    margin-top: 200px;
+    margin-top: 150px;
 }
 
 form {
-    border: 1px solid #1A33FF;
+    border: 1px solid #0521f7;
     background: #ecf5fc;
     padding: 40px 50px 45px;
 }
@@ -31,7 +31,6 @@ label {
 }
 .form-control.error {
     border-color: red;
-    padding: .375rem .75rem;
 }
 span{
     color: red;

@@ -40,6 +40,10 @@
               <span class="text-danger" role="alert">{{ $message }}</span>
           @enderror
     </div>
+    <div class="form-group mb-2">
+        <label>Confirm Password :</label>
+        <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password_confirmation" placeholder="Re enter password"><br>
+    </div>
       {{-- <label for="text">User Type :</label>
       <select name="user_type">
          <option value="admin">Admin</option>

@@ -42,18 +42,26 @@
             <h1 class="text-center">Add User</h1>
             <div class="form-group">
               <label for="name" class="control-label">Name :</label>
-              <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}"  placeholder="Enter your name" maxlength="100" >
+              <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}"  placeholder="Enter name" maxlength="100" >
               @error('name')
               <span class="text-danger" role="alert">{{ $message }}</span>
           @enderror
         </div>
             <div class="form-group">
               <label for="email" class="control-label">Email :</label>
-              <input type="text" name="email" id="email"  class="form-control" {{ old('email') }}placeholder="Enter your email" >
+              <input type="text" name="email" id="email"  class="form-control" {{ old('email') }}placeholder="Enter email" >
               @error('email')
               <span class="text-danger" role="alert">{{ $message }}</span>
-          @enderror
+             @enderror
             </div>
+            <div class="form-group">
+                <label for="password" class="control-label">Password :</label>
+                <input type="password" name="password" id="password"  class="form-control" {{ old('password') }}placeholder="Enter password" >
+                @error('password')
+                <span class="text-danger" role="alert">{{ $message }}</span>
+               @enderror
+              </div>
+
             <div class="form-group">
                 <label for="user_type" class="control-label">User Type :</label>
                 <select class="form-control" id="user_type" name="user_type" >
