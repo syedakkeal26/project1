@@ -89,6 +89,7 @@ class UseradminController extends Controller
                     'password'=> 'required|string',
                     'user_type'=> 'required|in:admin,user',
                 ]);
+<<<<<<< Updated upstream
                 $data['name'] = $request->name;
                 $data['email'] =$request->email;
                 $data['password'] = Hash::make($request->password);
@@ -96,6 +97,12 @@ class UseradminController extends Controller
                 $newuser = Useradmin::create($data);
                 if(!$newuser){
                     return redirect(route('admin.create'));
+=======
+                $postdata = $request->all();
+                Useradmin::create($postdata);
+                if($postdata){
+                 return redirect(route('admin.index'));
+>>>>>>> Stashed changes
                 }
                     $data['psw']=$request->password;
                     Mail::send('emails.test',$data,function($message) use($data){
