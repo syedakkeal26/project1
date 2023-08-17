@@ -18,9 +18,4 @@ class Useradmin extends Authenticatable
         'user_type'
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
 }
