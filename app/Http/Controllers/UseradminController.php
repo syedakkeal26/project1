@@ -66,15 +66,10 @@ class UseradminController extends Controller
 
      public function index()
     {
-        $users = Useradmin::orderBy('id', 'DESC')->paginate(6);
+        $users = Useradmin::orderBy('id', 'DESC')->paginate(10);
         return view ('dashboard',['users'=>$users]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-      *///function adduser(){
-    //         return view('add');
-    //  }
     public function create(Request $request)
 
             {
@@ -151,7 +146,7 @@ class UseradminController extends Controller
         $user->delete();
         return redirect('/admin');
     }
-        function signOut(){
+    public function signOut(){
         Session::flush();
             Auth::logout();
             return redirect(route('login'));

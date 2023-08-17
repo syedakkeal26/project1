@@ -58,6 +58,7 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->user_type }}</td>
                 <td>
+                <div class="del" style="display:-webkit-inline-flex">
                 <form action="{{ route('admin.edit', $user->id)}}" method="GET">
                   @csrf
                   <button class="btn-group btn-group-sm float-right btn btn-sm btn-success " type="submit"><i class="fa fa-pencil"></i></button>
@@ -65,8 +66,9 @@
                 <form action="{{ route('admin.destroy', $user->id)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn-group btn-group-sm float-right btn btn-sm btn-danger " type="submit"><i class="fa fa-trash"></i></button>
+                  <button class="btn-group btn-group-sm float-right btn btn-sm btn-danger " type="submit" onclick="return confirm('Are you sure you Want to delete?')"><i class="fa fa-trash"></i></button>
                 </form>
+                </div>
                 </td>
             </tr>
             @endforeach
