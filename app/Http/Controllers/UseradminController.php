@@ -10,8 +10,20 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Models\Useradmin;
+
+
+use App\Repositories\User\UserInterface as UserInterface;
+
+
 class UseradminController extends Controller
 {
+
+    private $user;
+    public function __construct(UserInterface $user)
+    {
+        $this->user = $user;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -41,7 +53,7 @@ class UseradminController extends Controller
     return redirect(route('login'))->with("error","Email and password Incorrect");
     }
 
-    function registerpost(Request $request){
+    public function registerpost(Request $request){
         $request->validate([
             'name' => 'required|string|max:255',
             'email'=> 'required|email|unique:useradmins',
