@@ -22,6 +22,7 @@ class UseradminController extends Controller
     public function __construct(UserInterface $user)
         {
             $this->user = $user;
+
         }
 
 
@@ -54,14 +55,12 @@ class UseradminController extends Controller
 
     public function registerpost(Request $request)
         {
-            {
-
-                $user = $this->user->registerpost($request);
-                if($user=='0'){
-                    return redirect(route('register'));
-                }
-                return redirect(route('login'));
+            $user = $this->user->registerpost($request);
+            if($user=='0'){
+                return redirect(route('register'));
             }
+            return redirect(route('login'));
+
         }
 
     public function index()

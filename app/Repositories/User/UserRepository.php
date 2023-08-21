@@ -15,9 +15,6 @@ use Illuminate\Http\Request;
 
 class UserRepository implements UserInterface
 {
-
-
-
     public function loginpost( $request)
         {
                     $request->validate([
