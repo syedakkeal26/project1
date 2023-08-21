@@ -34,40 +34,21 @@ Route::post('/loginpost',[UseradminController::class , 'loginpost'])->name('logi
 Route::get('/register',[UseradminController::class , 'register'])->name('register');
 Route::post('/register',[UseradminController::class , 'registerpost'])->name('registerpost');
 
-//---------------------------------------------------
+//----------------------------------Using guard-------------------
+Route::group(['middleware' => ['auth:admin']], function() {
 
-Route::view('contact', 'contact');
-
-Route::view('about', 'about');
-
-Route::view('service', 'service');
-
-Route::view('career', 'career',['name'=> 'Syed AKkeal']);
-
-//-------------------------------------------------------------
-
-Route::get('data',[MemberController::class,'index']);
-Route::get('data1',[MemberController::class,'data']);
-
-Route::get('datas',[MemberController::class,'indexdata']);
-
-//---------------------------------------------------
-Route::group(['middleware'=>'auth'], function() {
-
-//------------admin route--------------------------
-
-    Route::group(['middleware'=>'is_admin'], function() {
 // --------------------Resource route---------------
-
+Route::group(['middleware'=>'is_admin'], function() {
         Route::resource('admin', UseradminController::class);
     });
-
-//-----------------user route-----------------------
-
-    Route::group(['middleware'=>'is_user'], function() {
-        Route::view('user', 'user')->name('company');
+Route::group(['middleware'=>'is_user'], function() {
+        Route::view('user', 'user')->name('user.index');
 });
 });
+
+
+
+
    ## logout
         Route::get('/logout', [UseradminController::class, 'signOut'])->name('signout');
 

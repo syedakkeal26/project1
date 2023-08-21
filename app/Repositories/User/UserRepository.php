@@ -21,11 +21,14 @@ class UserRepository implements UserInterface
                         'email'=> 'required',
                         'password'=> 'required'
                     ]);
-                $credentials = $request->only('email','password');
-                if(Auth::attempt($credentials))
+                if(Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password]))
                 {
-                    if (Auth::user()->user_type == 'admin'){
+                    if (Auth::guard('admin')->user()->user_type == 'admin'){
+                        // dd('khdk');
                         return 1;
+                    }
+                    else{
+                        return 0;
                     }
                 }
 

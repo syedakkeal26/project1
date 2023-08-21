@@ -34,9 +34,30 @@
               <div class="col-xs-12 col-sm-6 offset-sm-3 col-md-6 offset-md-3">
                 <div class="my-3">
                     <h1 class="text-center">Details</h1>
+                    <div class="det" style="font-size: 150%">
                     <div class="form-group">
                         <label for="name" class="control-label">Name :</label>
-                        {{ $user->name }}
+                        <strong>{{ $user->name }}</strong>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>Email : </label>
+                        <strong>{{ $user->email }}</strong>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label>User Type : </label>
+                        <strong>{{ $user->user_type }}</strong>
+                    </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                        <a class="col-xs-12 col-sm-6 offset-sm-3 col-md-6 offset-md-5" style="text-center" href="{{ url('/admin') }}">Back
+                        </a>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
 
 
 </body>

@@ -47,7 +47,7 @@ class UseradminController extends Controller
                 }
             }
             else{
-                    return redirect()->intended(route('company'));
+                    return redirect()->intended(route('user.index'));
                     }
 
         return redirect(route('login'))->with("error","Email and password Incorrect");
@@ -89,7 +89,8 @@ class UseradminController extends Controller
      */
     public function show(string $id)
         {
-            return view('add');
+            $user = Useradmin::where('id',$id)->first();
+            return view('details',compact('user'));
         }
 
 
@@ -106,6 +107,7 @@ class UseradminController extends Controller
                 return redirect(route('admin.index'));
             }
         }
+
 
     public function destroy(string $id)
         {
