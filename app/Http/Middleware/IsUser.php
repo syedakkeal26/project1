@@ -16,7 +16,7 @@ class IsUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->user_type == 'user'){
+        if(Auth::guard('admin')->user()->user_type == 'user'){
             return $next($request);
         }
 

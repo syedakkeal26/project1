@@ -34,21 +34,25 @@ Route::post('/loginpost',[UseradminController::class , 'loginpost'])->name('logi
 Route::get('/register',[UseradminController::class , 'register'])->name('register');
 Route::post('/register',[UseradminController::class , 'registerpost'])->name('registerpost');
 
-//----------------------------------Using guard-------------------
+//----------------------------------Using guard-------------------------
+
 Route::group(['middleware' => ['auth:admin']], function() {
 
-// --------------------Resource route---------------
-Route::group(['middleware'=>'is_admin'], function() {
+    Route::group(['middleware'=>'is_admin'], function() {
+// --------------------Resource route-----------------------------------
         Route::resource('admin', UseradminController::class);
     });
-Route::group(['middleware'=>'is_user'], function() {
+
+// --------------------User route----------------------------------------
+    Route::group(['middleware'=>'is_user'], function() {
         Route::view('user', 'user')->name('user.index');
-});
-});
-
-
-
-
+    });
    ## logout
-        Route::get('/logout', [UseradminController::class, 'signOut'])->name('signout');
+Route::get('/logout', [UseradminController::class, 'signOut'])->name('signout');
+
+});
+
+
+
+
 

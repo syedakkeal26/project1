@@ -7,12 +7,14 @@
     <title>Admin Dashboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="https://kit.fontawesome.com/c3821bec25.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/login') }}">Home</a>
+                <a class="navbar-brand" href="">Home</a>
                 <div>
                     <div>
                         <div>
@@ -58,10 +60,14 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->user_type }}</td>
                 <td>
-                <div class="del" style="display:">
-                 <a href="{{ route('admin.show',$user->id) }}" >
+                <div class="del" style="display: -webkit-inline-flex">
+                 {{-- <a href="{{ route('admin.show',$user->id) }}" >
                     <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg></i>
-                 </i></a>
+                 </i></a> --}}
+                 <form action="{{ route('admin.show',$user->id) }}" method="GET">
+                    @csrf
+                    <button class="btn-group btn-group-sm float-right btn btn-sm btn-info " type="submit"><i class="fas fa-eye"></i></button>
+                 </form>
                 <form action="{{ route('admin.edit', $user->id)}}" method="GET">
                   @csrf
                   <button class="btn-group btn-group-sm float-right btn btn-sm btn-success " type="submit"><i class="fa fa-pencil"></i></button>

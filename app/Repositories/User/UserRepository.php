@@ -17,21 +17,20 @@ class UserRepository implements UserInterface
 {
     public function loginpost( $request)
         {
-                    $request->validate([
-                        'email'=> 'required',
-                        'password'=> 'required'
-                    ]);
-                if(Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password]))
-                {
-                    if (Auth::guard('admin')->user()->user_type == 'admin'){
-                        // dd('khdk');
-                        return 1;
-                    }
-                    else{
-                        return 0;
-                    }
+            $request->validate([
+                'email'=> 'required',
+                'password'=> 'required'
+            ]);
+            if(Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password]))
+            {
+                if (Auth::guard('admin')->user()->user_type == 'admin'){
+                    // dd('khdk');
+                    return 1;
                 }
-
+                else{
+                    return 0;
+                }
+            }
          }
 
 
@@ -40,9 +39,17 @@ class UserRepository implements UserInterface
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email'=> 'required|email|unique:useradmins',
-                'password' => 'required|string|confirmed|',
+                'password' => [
+                    'required',
+                    'string',
+                    'min:4',
+                    'max:8',
+                    'regex:/[a-z]/',      //  one lowercase letter
+                    'regex:/[A-Z]/',      // one uppercase letter
+                    'regex:/[0-9]/',      //  one digit
+                    'regex:/[@$!%*#?&]/', //  a special character
+                ],
             ]);
-
             $data['name'] = $request->name;
             $data['email'] =$request->email;
             $data['password'] = Hash::make($request->password);
@@ -52,10 +59,11 @@ class UserRepository implements UserInterface
                 return 0;
             }
             $data['psw']=$request->password;
-                Mail::send('emails.test',$data,function($message) use($data){
-                    $message->to($data['email']);
-                    $message->subject('Message From Admin');
-                });
+            Mail::send('emails.test',$data,function($message) use($data)
+            {
+                $message->to($data['email']);
+                $message->subject('Message From Admin');
+            });
         }
 
     public function store(Request $request)
@@ -63,10 +71,9 @@ class UserRepository implements UserInterface
             $request->validate([
                 'name' => 'required',
                 'email'=> 'required|email|unique:useradmins',
-                'password'=> 'required|string',
+                'password'=> 'required|string|max:8|',
                 'user_type'=> 'required|in:admin,user',
             ]);
-
             $data['name'] = $request->name;
             $data['email'] =$request->email;
             $data['password'] = Hash::make($request->password);
@@ -76,10 +83,11 @@ class UserRepository implements UserInterface
                 return 0;
             }
             $data['psw']=$request->password;
-                Mail::send('emails.test',$data,function($message) use($data){
-                    $message->to($data['email']);
-                    $message->subject('Message From Admin');
-                });
+            Mail::send('emails.test',$data,function($message) use($data)
+            {
+                $message->to($data['email']);
+                $message->subject('Message From Admin');
+            });
         }
 
 
@@ -91,7 +99,6 @@ class UserRepository implements UserInterface
                 'user_type'=> 'required|in:admin,user',
             ]);
             $user = $request->all();
-
             Useradmin::find($id)->update($user);
             if($user){
                 return 1;

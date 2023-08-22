@@ -65,7 +65,7 @@ class UseradminController extends Controller
 
     public function index()
         {
-            $users = Useradmin::orderBy('id', 'DESC')->paginate(10);
+            $users = Useradmin::orderBy('id', 'DESC')->paginate(12);
             return view ('dashboard',['users'=>$users]);
         }
 
@@ -120,7 +120,7 @@ class UseradminController extends Controller
     public function signOut()
         {
             Session::flush();
-            Auth::logout();
+            Auth::guard('admin')->logout();
             return redirect(route('login'));
         }
 }

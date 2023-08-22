@@ -12,7 +12,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand">Home</a>
+                <a class="navbar-brand" href="">Home</a>
                 <div>
                     <div>
                         <div>
@@ -30,10 +30,10 @@
         <div class="table-responsive">
             <table class="table table-hover progress-table text-center" >
                 <td>
-                    <h1>Hello,  {{ auth()->user()->name}}</h1>
+                    <h1>Hello,  {{ Auth::guard('admin')->user()->name}}</h1>
                     <h4>User Profile</h4>
-                    <p>Name: {{ auth()->user()->name }}</p>
-                    <p>Email: {{ auth()->user()->email }}</p>
+                    <p>Name: {{ Auth::guard('admin')->user()->name }}</p>
+                    <p>Email: {{ Auth::guard('admin')->user()->email }}</p>
                 </td>
             </table>
         </div>
