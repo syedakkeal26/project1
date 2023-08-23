@@ -25,18 +25,24 @@
                 </div>
             </div>
         </nav>
+
         <nav style="background-color: #e3f2fd;">
             <div class=" btn-group-sm">
                 <span class="navbar-toggler-icon"></span>
                 {{-- <a class="btn btn-success" href="{{ url('/sendemail') }}">Send Email</a> --}}
             </div>
         </nav>
-
+        @if (session()->has('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
 <div class="table-responsive">
     <table class="table table-hover progress-table text-center" >
             <div class="col-lg-12 margin-tb">
                 <div class='table table-hover progress-table text-center '>
                     <h3> List Of Users</h3>
+
                 </div>
                 <div class="col-lg-2 pull-right ">
                     <a class="btn btn-success " href={{ route('admin.create') }}> Add New</a>
@@ -52,6 +58,7 @@
             <th>UserType</th>
             <th>Action</th>
         </header>
+
         <tbody>
             @foreach ($users as $user)
             <tr >

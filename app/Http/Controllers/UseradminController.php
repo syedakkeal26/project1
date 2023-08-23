@@ -65,7 +65,7 @@ class UseradminController extends Controller
 
     public function index()
         {
-            $users = Useradmin::orderBy('id', 'DESC')->paginate(12);
+            $users = Useradmin::orderBy('id', 'DESC')->paginate(10);
             return view ('dashboard',['users'=>$users]);
         }
 
@@ -115,7 +115,6 @@ class UseradminController extends Controller
             if($user=='1'){
                 return redirect(route('admin.index'));
             }
-
         }
     public function signOut()
         {

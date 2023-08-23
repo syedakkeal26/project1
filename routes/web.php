@@ -47,7 +47,7 @@ Route::group(['middleware' => ['auth:admin']], function() {
     Route::group(['middleware'=>'is_user'], function() {
         Route::view('user', 'user')->name('user.index');
     });
-   ## logout
+## logout
 Route::get('/logout', [UseradminController::class, 'signOut'])->name('signout');
 
 });

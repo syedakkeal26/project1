@@ -88,6 +88,7 @@ class UserRepository implements UserInterface
                 $message->to($data['email']);
                 $message->subject('Message From Admin');
             });
+            session()->flash('message', 'User Created successfully');
         }
 
 
@@ -100,18 +101,21 @@ class UserRepository implements UserInterface
             ]);
             $user = $request->all();
             Useradmin::find($id)->update($user);
+            session()->flash('message', 'User Updated successfully');
             if($user){
                 return 1;
             }
             else{
                 return 0;
             }
+
         }
 
     public function destroy(string $id)
         {
             $user=Useradmin::find($id);
             $user->delete();
+            session()->flash('message', 'User Deleted successfully');
             if($user){
                 return 1;
             }
