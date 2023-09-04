@@ -10,8 +10,8 @@
 </head>
 <body>
     <center>
-        <h2 style="padding: 25px;background: #e2e2e2;border-bottom: 6px green solid;">
-            <a  href="{{ url('/login') }}">Website Login</a>
+        <h2 style="padding: 25px;background: #e2e2e2;border-bottom: 6px rgb(91, 3, 255) solid;">
+            <a  href="{{ url('/login') }}">Click Here</a>
         </h2>
     </center>
 
