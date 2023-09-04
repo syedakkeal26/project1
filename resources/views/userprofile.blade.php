@@ -32,33 +32,27 @@
                 <div class="col-md-6 offset-md-3">
                     <div class="table-responsive">
                         <table class="table table-hover progress-table text-center">
+                            @if(session('success'))
+                            <div class="alert alert-success">
+                            {{ session('success') }}
+                            </div>
+                            @endif
                             <tr>
                                 <td>
-                                    <h1>Edit User Profile</h1>
-                                    <form method="POST" action="{{ route('profile.update',  auth()->user()->id) }}">
-                                        @csrf
-                                        @method('PUT')
-
+                                    <h3>User Profile</h3>
+                                    <h1 class="text-center">Details</h1>
+                                    <div class="det" style="font-size: 150%">
                                         <div class="form-group">
-                                            <label for="name">Name:</label>
-                                            <input type="text" name="name" id="name" class="form-control" value="{{ auth()->user()->name }}">
-                                            @error('name')
-                                            <span class="text-danger" role="alert">{{ $message }}</span>
-                                            @enderror
-                                        </div>
+                                            <label for="name" class="control-label">Name :</label>
+                                                <strong>{{ auth()->user()->name }}</strong>
+                                         </div>
+                                    <div class="form-group mb-2">
+                                        <label>Email : </label>
+                                            <strong>{{ auth()->user()->email }}</strong>
+                                    </div>
 
-                                        <div class="form-group">
-                                            <label for="email">Email:</label>
-                                            <input type="email" name="email" id="email" class="form-control" value="{{ auth()->user()->email }}">
-                                            @error('email')
-                                            <span class="text-danger" role="alert">{{ $message }}</span>
-                                        @enderror
-                                        </div>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary">Update Profile</button>
-
-                                        <a href="{{ route('user.index') }}" class="btn btn-secondary">Back</a>
-                                    </form>
+                                        <a href="{{ route('user.edit.profile',['userId' => auth()->id()]) }}" class="btn btn-success">Edit</a>
+                                        <a href="{{ route('user.index') }}" class="btn btn-danger">Back</a>
                                 </td>
                             </tr>
                         </table>

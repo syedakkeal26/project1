@@ -47,8 +47,9 @@ Route::group(['middleware' => ['auth:admin']], function() {
     Route::group(['middleware'=>'is_user'], function() {
         Route::view('user', 'user')->name('user.index');
         Route::get('aboutus',[UseradminController::class , 'dash'])->name('aboutus');
-        Route::get('/user/profile', [UseradminController::class , 'showProfile'])->name('user.profile');
-        Route::put('/user/profile/update', [UseradminController::class , 'updateProfile'])->name('profile.update');
+        Route::get('/profile', [UseradminController::class , 'showProfile'])->name('user.profile');
+        Route::get('/editprofile/{userId}', [UseradminController::class , 'editProfile'])->name('user.edit.profile');
+        Route::put('/profile/update/{userId}', [UseradminController::class , 'updateProfile'])->name('profile.update');
 
     });
 ## logout

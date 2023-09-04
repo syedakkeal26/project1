@@ -35,7 +35,7 @@
                     <p>Name: {{ Auth::guard('admin')->user()->name }}</p>
                     <p>Email: {{ Auth::guard('admin')->user()->email }}</p>
                 <!-- Inside your dashboard.blade.php -->
-                <a href="{{ route('user.profile') }}" class="btn btn-primary">Edit My Profile</a>
+                <a href="{{ route('user.profile') }}" class="btn btn-primary">My Profile</a>
 
                     <a href="{{ route('aboutus') }}" class="btn btn-success">Dashboard</a>
 

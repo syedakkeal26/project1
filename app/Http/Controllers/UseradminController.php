@@ -19,33 +19,36 @@ use App\Repositories\User\UserInterface as UserInterface;
 
 class UseradminController extends Controller
 {
-
+//-------------------------------using trait ---------------------------
     use UserDashboardTrait;
 
     public function showProfile()
     {
-        $userId = auth()->id();
+        return view('userprofile');
+    }
+
+    public function editProfile($userId)
+    {
         $user = $this->getUserProfile($userId);
 
         if (!$user) {
-            return redirect()->route('user.index')->with('error', 'User profile not found.');
+            return redirect()->route('user.index')->with('error', 'User not found.');
         }
 
-        return view('userprofile', compact('user'));
+        return view('edituser', compact('user'));
     }
 
-    public function updateProfile(Request $request, $id)
+    public function updateprofile(Request $request, $userId)
     {
-        // Validate and update the user profile data
-        $result = $this->updateUserProfile($request, $id);
+        $result = $this->updateUserProfile($request, $userId);
 
         if ($result) {
-            return redirect()->route('user.profile')->with('success', 'Profile updated successfully.');
+            return redirect()->route('user.profile', $userId)->with('success', 'Profile updated successfully.');
         } else {
-            return redirect()->route('user.profile')->with('error', 'Profile update failed.');
+            return redirect()->route('user.edit-profile', $userId)->with('error', 'Profile update failed.');
         }
     }
-
+//-------------------------------using trait ---------------------------
     public $user;
     public function __construct(UserInterface $user)
         {
@@ -66,7 +69,7 @@ class UseradminController extends Controller
 
         public function loginpost(Request $request)
         {
-            //-----------------Userrepository function
+            //-----------------Userrepository function---------------------------------
             $user = $this->user->loginpost($request);
             if ($user) {
                 if ($user == '1') {
