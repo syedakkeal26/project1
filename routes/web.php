@@ -46,6 +46,10 @@ Route::group(['middleware' => ['auth:admin']], function() {
 // --------------------User route----------------------------------------
     Route::group(['middleware'=>'is_user'], function() {
         Route::view('user', 'user')->name('user.index');
+        Route::get('aboutus',[UseradminController::class , 'dash'])->name('aboutus');
+        Route::get('/user/profile', [UseradminController::class , 'showProfile'])->name('user.profile');
+        Route::put('/user/profile/update', [UseradminController::class , 'updateProfile'])->name('profile.update');
+
     });
 ## logout
 Route::get('/logout', [UseradminController::class, 'signOut'])->name('signout');

@@ -42,12 +42,12 @@ class UserRepository implements UserInterface
                 'password' => [
                     'required',
                     'string',
-                    'min:4',
-                    'max:8',
-                    'regex:/[a-z]/',      //  one lowercase letter
-                    'regex:/[A-Z]/',      // one uppercase letter
-                    'regex:/[0-9]/',      //  one digit
-                    'regex:/[@$!%*#?&]/', //  a special character
+                    // 'min:4',
+                    // 'max:8',
+                    // 'regex:/[a-z]/',      //  one lowercase letter
+                    // 'regex:/[A-Z]/',      // one uppercase letter
+                    // 'regex:/[0-9]/',      //  one digit
+                    // 'regex:/[@$!%*#?&]/', //  a special character
                 ],
             ]);
             $data['name'] = $request->name;

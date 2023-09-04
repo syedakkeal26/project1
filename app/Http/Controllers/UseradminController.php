@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendEmailJob;
+use App\Traits\UserDashboardTrait;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -17,6 +19,32 @@ use App\Repositories\User\UserInterface as UserInterface;
 
 class UseradminController extends Controller
 {
+
+    use UserDashboardTrait;
+
+    public function showProfile()
+    {
+        $userId = auth()->id();
+        $user = $this->getUserProfile($userId);
+
+        if (!$user) {
+            return redirect()->route('user.index')->with('error', 'User profile not found.');
+        }
+
+        return view('userprofile', compact('user'));
+    }
+
+    public function updateProfile(Request $request, $id)
+    {
+        // Validate and update the user profile data
+        $result = $this->updateUserProfile($request, $id);
+
+        if ($result) {
+            return redirect()->route('user.profile')->with('success', 'Profile updated successfully.');
+        } else {
+            return redirect()->route('user.profile')->with('error', 'Profile update failed.');
+        }
+    }
 
     public $user;
     public function __construct(UserInterface $user)
@@ -36,13 +64,12 @@ class UseradminController extends Controller
             return view ('register');
         }
 
-    public function loginpost(Request $request)
+        public function loginpost(Request $request)
         {
-            //-----------------Userrepositry function
+            //-----------------Userrepository function
             $user = $this->user->loginpost($request);
-            if($user)
-            {
-                if ($user=='1'){
+            if ($user) {
+                if ($user == '1') {
                     return redirect()->intended(route('admin.index'));
                 }
             }
@@ -50,9 +77,20 @@ class UseradminController extends Controller
                     return redirect()->intended(route('user.index'));
                     }
 
-        return redirect(route('login'))->with("error","Email and password Incorrect");
+            return redirect(route('login'))->with("error", "Email and password Incorrect");
         }
+//--------------------------------Using helpers -------------------------
+        public function dash(){
+             $completedTasks = 20;
+             $totalTasks = 50;
+             $progress = calculateProgress($completedTasks, $totalTasks);
 
+             $amount = 1234.56;
+             $formattedAmount = formatCurrency($amount);
+
+             return view('about', compact('progress', 'formattedAmount'));
+        }
+//----------------------------------------------------------------------------------
     public function registerpost(Request $request)
         {
             $user = $this->user->registerpost($request);
@@ -62,7 +100,6 @@ class UseradminController extends Controller
             return redirect(route('login'));
 
         }
-
     public function index()
         {
             $users = Useradmin::orderBy('id', 'DESC')->paginate(10);
@@ -116,10 +153,16 @@ class UseradminController extends Controller
                 return redirect(route('admin.index'));
             }
         }
+
+
+
     public function signOut()
         {
             Session::flush();
             Auth::guard('admin')->logout();
             return redirect(route('login'));
         }
+
+
+
 }

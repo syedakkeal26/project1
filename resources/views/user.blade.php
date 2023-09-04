@@ -30,10 +30,15 @@
         <div class="table-responsive">
             <table class="table table-hover progress-table text-center" >
                 <td>
-                    <h1>Hello,  {{ Auth::guard('admin')->user()->name}}</h1>
+                    <h1>Hello,</h1>
                     <h4>User Profile</h4>
                     <p>Name: {{ Auth::guard('admin')->user()->name }}</p>
                     <p>Email: {{ Auth::guard('admin')->user()->email }}</p>
+                <!-- Inside your dashboard.blade.php -->
+                <a href="{{ route('user.profile') }}" class="btn btn-primary">Edit My Profile</a>
+
+                    <a href="{{ route('aboutus') }}" class="btn btn-success">Dashboard</a>
+
                 </td>
             </table>
         </div>
