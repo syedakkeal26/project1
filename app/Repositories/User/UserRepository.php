@@ -19,9 +19,9 @@ class UserRepository implements UserInterface
     public function loginpost( $request)
         {
             $request->validate([
-                'email'=> 'required',
-                'password'=> 'required'
+                '*'=> 'required',
             ]);
+            // dd($request);
             if(Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password]))
             {
                 if (Auth::guard('admin')->user()->user_type == 'admin'){
@@ -35,58 +35,34 @@ class UserRepository implements UserInterface
          }
 
 
-    // public function registerpost(Request $request)
-    //     {
-    //         // $request->validate([
-    //         //     'name' => 'required|string|max:255',
-    //         //     'email'=> 'required|email|unique:useradmins',
-    //         //     'password' => [
-    //         //         'required',
-    //         //         'string',
-    //         //         // 'min:4',
-    //         //         // 'max:8',
-    //         //         // 'regex:/[a-z]/',      //  one lowercase letter
-    //         //         // 'regex:/[A-Z]/',      // one uppercase letter
-    //         //         // 'regex:/[0-9]/',      //  one digit
-    //         //         // 'regex:/[@$!%*#?&]/', //  a special character
-    //         //     ],
-    //         // ]);
-    //         $requestData = $request->all();
-    //         $validator = Validator::make($requestData, array_fill_keys(array_keys($requestData), 'required'));
-    //         if ($validator->fails())
-    //         {
-    //             return response()->json(['errors' => $validator->errors()], 400);
-    //         }
-    //         $data['name'] = $request->name;
-    //         $data['email'] =$request->email;
-    //         $data['password'] = Hash::make($request->password);
-    //         $data['user_type'] = 'user';
-    //         $user = Useradmin::create($data);
-    //         if(!$user){
-    //             return 0;
-    //         }
-    //         $data['psw']=$request->password;
-    //         Mail::send('emails.test',$data,function($message) use($data)
-    //         {
-    //             $message->to($data['email']);
-    //             $message->subject('Message From Admin');
-    //         });
-    //     }
-
-
-        public function registerpost(Request $request)
+    public function registerpost(Request $request)
         {
-            $requestData = $request->all();
-            // dd($request->all());
-            $validator = Validator::make($requestData, array_fill_keys(array_keys($requestData), 'required'));
+            // $request->validate([
+            //     'name' => 'required|string|max:255',
+            //     'email'=> 'required|email|unique:useradmins',
+            //     'password' => [
+            //         'required',
+            //         'string',
+            //         // 'min:4',
+            //         // 'max:8',
+            //         // 'regex:/[a-z]/',      //  one lowercase letter
+            //         // 'regex:/[A-Z]/',      // one uppercase letter
+            //         // 'regex:/[0-9]/',      //  one digit
+            //         // 'regex:/[@$!%*#?&]/', //  a special character
+            //     ],
+            // ]);
+            $request->validate([
+                '*' => 'required',
+            ]);
+            // foreach ($request->except('_token') as $data => $value) {
+            //     $valids[$data] = "required";
+            //   }
 
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 400);
-            }
+            //   $request->validate($valids);
 
             $data['name'] = $request->name;
-            $data['email'] = $request->email;
-            $data['password'] = bcrypt($request->password);
+            $data['email'] =$request->email;
+            $data['password'] = Hash::make($request->password);
             $data['user_type'] = 'user';
             $user = Useradmin::create($data);
             if(!$user){
@@ -99,6 +75,33 @@ class UserRepository implements UserInterface
                 $message->subject('Message From Admin');
             });
         }
+
+
+        // public function registerpost(Request $request)
+        // {
+        //     $requestData = $request->all();
+        //     // dd($request->all());
+        //     $validator = Validator::make($requestData, array_fill_keys(array_keys($requestData), 'required'));
+
+        //     if ($validator->fails()) {
+        //         return response()->json(['errors' => $validator->errors()], 400);
+        //     }
+
+        //     $data['name'] = $request->name;
+        //     $data['email'] = $request->email;
+        //     $data['password'] = bcrypt($request->password);
+        //     $data['user_type'] = 'user';
+        //     $user = Useradmin::create($data);
+        //     if(!$user){
+        //         return 0;
+        //     }
+        //     $data['psw']=$request->password;
+        //     Mail::send('emails.test',$data,function($message) use($data)
+        //     {
+        //         $message->to($data['email']);
+        //         $message->subject('Message From Admin');
+        //     });
+        // }
 
     public function store(Request $request)
         {
@@ -129,7 +132,8 @@ class UserRepository implements UserInterface
     public function update( $request, string $id)
         {
             $request->validate([
-                'name' => 'required',
+                '*' => 'required',
+                // 'name' => 'required',
                 'email' => 'required|unique:useradmins,email,' . $id,
                 'user_type'=> 'required|in:admin,user',
             ]);
