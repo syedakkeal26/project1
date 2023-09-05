@@ -12,11 +12,9 @@ trait UserDashboardTrait
     public function getUserProfile($userId)
     {
         $user = Useradmin::find($userId);
-
         if (!$user) {
             return null;
         }
-
         $userProfile = [
             'name' => $user->name,
             'email' => $user->email,
@@ -38,7 +36,7 @@ trait UserDashboardTrait
             'email' => $request->input('email'),
         ]);
 
-        return true; // Profile updated successfully
+        return true;
     }
 
 }

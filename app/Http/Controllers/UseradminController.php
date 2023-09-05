@@ -19,7 +19,7 @@ use App\Repositories\User\UserInterface as UserInterface;
 
 class UseradminController extends Controller
 {
-//-------------------------------using trait ---------------------------
+    //-------------------------------using trait ---------------------------
     use UserDashboardTrait;
 
     public function showProfile()
@@ -30,11 +30,9 @@ class UseradminController extends Controller
     public function editProfile($userId)
     {
         $user = $this->getUserProfile($userId);
-
         if (!$user) {
             return redirect()->route('user.index')->with('error', 'User not found.');
         }
-
         return view('edituser', compact('user'));
     }
 
