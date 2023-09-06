@@ -65,61 +65,46 @@ class ApiController extends Controller
 
     //     $user = $request->user();
 
-    //     if ($request->hasFile('profile_picture')) {
-    //         if ($user->profile_picture) {
-    //             $old_path = public_path('/uploads/profile_images/' . $user->profile_picture);
-    //             if (File::exists($old_path)) {
-    //                 File::delete($old_path);
-    //             }
-    //         }
-    //         $image = 'profile_picture_' . time() . '.' . $request->file('profile_picture')->extension();
-    //         $destinationPath = public_path('/uploads/profile_images');
 
-    //         if (!$request->file('profile_picture')->move($destinationPath, $image)) {
-    //             return response()->json(['message' => 'File not moved. Check directory permissions or other issues.'], 400);
-    //         }
-    //     } else {
-    //         $image = $user->profile_picture;
-    //     }
-
-    //     $user->update([
-    //         'name' => $request->input('name'),
-    //         'gender' => $request->input('gender'),
-    //         'profile_picture' => $image,
-    //     ]);
-
-    //     return response()->json(['message' => 'Profile Updated Successfully']);
     // }
 
     public function profile_update(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png',
-            'gender' => 'required|nullable',
-        ]);
+        {
+            $validator = Validator::make($request->all(), [
+                        'name' => 'required',
+                        'profile_picture' => 'required|nullable|image|mimes:jpg,jpeg,png',
+                        'gender' => 'required|nullable',
+                    ]);
+            if ($validator->fails()) {
+                        $error = $validator->errors()->all();
+                        return response()->json(['message' => $error], 400);
+                    }
+            $user = $request->user();
+            if ($request->hasFile('profile_picture')) {
+                if ($user->profile_picture) {
+                    $old_path = public_path('/uploads/profile_images/' . $user->profile_picture);
+                    if (File::exists($old_path)) {
+                        File::delete($old_path);
+                    }
+                }
+                $image = 'profile_picture_' . time() . '.' . $request->file('profile_picture')->extension();
+                $destinationPath = public_path('/uploads/profile_images');
 
-        $user = $request->user();
-
-        if ($request->hasFile('profile_picture')) {
-            $imagePath = $request->file('profile_picture')->store('public/uploads/profile_images');
-            $imagePath = str_replace('public/', '', $imagePath);
-            if ($user->profile_picture) {
-                Storage::delete('public/' . $user->profile_picture);
+                if (!$request->file('profile_picture')->move($destinationPath, $image)) {
+                    return response()->json(['message' => 'File not moved. Check directory permissions or other issues.'], 400);
+                }
+            } else {
+                $image = $user->profile_picture;
             }
+
             $user->update([
                 'name' => $request->input('name'),
                 'gender' => $request->input('gender'),
-                'profile_picture' => $imagePath,
+                'profile_picture' => $image,
             ]);
-        } else {
-            $user->update([
-                'name' => $request->input('name'),
-                'gender' => $request->input('gender'),
-            ]);
+
+            return response()->json(['message' => 'Profile Updated Successfully']);
         }
-        return response()->json(['message' => 'Profile Updated Successfully']);
-    }
 
 }
 

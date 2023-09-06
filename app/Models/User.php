@@ -26,11 +26,9 @@ class User extends Authenticatable
         'gender',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    public $appends=[
+        'profile_image_url'
+    ];
     protected $hidden = [
         'password',
         'remember_token',
@@ -48,5 +46,14 @@ class User extends Authenticatable
 
     public function address(){
         return $this->hasOne(Address::class);
+    }
+
+    public function getProfileImageUrlAttribute(){
+        if($this->profile_picture){
+            return asset('uploads/profile_images/'.$this->profile_picture);
+        }
+        else{
+            return 'https://ui-avatars.com/api?background=random&name='.urlencode($this->name);
+        }
     }
 }
