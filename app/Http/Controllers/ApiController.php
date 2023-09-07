@@ -6,16 +6,17 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
-    public function register(Request $request){
+    public function register(Request $request ){
             $validator = Validator::make($request->all(),
             [
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|unique:users|email|ends_with:.com',
             'password' => 'required',
         ]);
         if($validator->fails()){
@@ -27,9 +28,9 @@ class ApiController extends Controller
         $data['password']= bcrypt($data['password']);
         $user = User::create($data);
 
-        $response['token'] = $user->createToken('jhkfdg')->accessToken;
+        // $response['token'] = $user->createToken('jhkfdg')->accessToken;
         $response['name'] = $user->name;
-        return response()->json($response);
+        return response()->json(['message'=>'Profile Registered Successfully',$response]);
     }
 
     public function login(Request $request){
@@ -96,15 +97,34 @@ class ApiController extends Controller
             } else {
                 $image = $user->profile_picture;
             }
-
             $user->update([
                 'name' => $request->input('name'),
                 'gender' => $request->input('gender'),
                 'profile_picture' => $image,
             ]);
-
             return response()->json(['message' => 'Profile Updated Successfully']);
         }
+        public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required',
+            'new_password' =>  [ 'required', 'string', 'min:4', 'max:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'regex:/[@$!%*#?&]/','confirmed' ],
+        ]);
+        if ($validator->fails()) {
+            $error = $validator->errors()->all();
+            return response()->json(['message' => $error], 400);
+        }
+        $user = Auth::user();
+
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return response()->json(['message' => 'Current password is incorrect'], 400);
+        }
+
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+
+        return response()->json(['message' => 'Password changed successfully']);
+    }
 
 }
 

@@ -25,4 +25,6 @@ Route::post('/login',[ApiController::class,'login']);
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/user',[ApiController::class,'details']);
     Route::post('/profileupdate',[ApiController::class,'profile_update']);
-});
+    Route::post('/profile/changepassword',[ApiController::class,'changePassword']);
+ });
+
