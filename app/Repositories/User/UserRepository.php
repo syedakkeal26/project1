@@ -21,15 +21,13 @@ class UserRepository implements UserInterface
             $request->validate([
                 '*'=> 'required',
             ]);
-            // dd($request);
             if(Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password]))
             {
                 if (Auth::guard('admin')->user()->user_type == 'admin'){
-                    // dd('khdk');
                     return 1;
                 }
                 else{
-                    return 0;
+                    return 2;
                 }
             }
          }
@@ -37,20 +35,20 @@ class UserRepository implements UserInterface
 
     public function registerpost(Request $request)
         {
-            // $request->validate([
-            //     'name' => 'required|string|max:255',
-            //     'email'=> 'required|email|unique:useradmins',
-            //     'password' => [
-            //         'required',
-            //         'string',
-            //         // 'min:4',
-            //         // 'max:8',
-            //         // 'regex:/[a-z]/',      //  one lowercase letter
-            //         // 'regex:/[A-Z]/',      // one uppercase letter
-            //         // 'regex:/[0-9]/',      //  one digit
-            //         // 'regex:/[@$!%*#?&]/', //  a special character
-            //     ],
-            // ]);
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email'=> 'required|email|unique:useradmins',
+                'password' => [
+                    'required',
+                    'string',
+                    // 'min:4',
+                    // 'max:8',
+                    // 'regex:/[a-z]/',      //  one lowercase letter
+                    // 'regex:/[A-Z]/',      // one uppercase letter
+                    // 'regex:/[0-9]/',      //  one digit
+                    // 'regex:/[@$!%*#?&]/', //  a special character
+                ],
+            ]);
             $request->validate([
                 '*' => 'required',
             ]);
@@ -77,31 +75,9 @@ class UserRepository implements UserInterface
         }
 
 
-        // public function registerpost(Request $request)
-        // {
-        //     $requestData = $request->all();
-        //     // dd($request->all());
-        //     $validator = Validator::make($requestData, array_fill_keys(array_keys($requestData), 'required'));
-
-        //     if ($validator->fails()) {
-        //         return response()->json(['errors' => $validator->errors()], 400);
-        //     }
-
-        //     $data['name'] = $request->name;
-        //     $data['email'] = $request->email;
-        //     $data['password'] = bcrypt($request->password);
-        //     $data['user_type'] = 'user';
-        //     $user = Useradmin::create($data);
-        //     if(!$user){
-        //         return 0;
-        //     }
-        //     $data['psw']=$request->password;
-        //     Mail::send('emails.test',$data,function($message) use($data)
-        //     {
-        //         $message->to($data['email']);
-        //         $message->subject('Message From Admin');
-        //     });
-        // }
+    public function index(){
+        return Useradmin::orderBy('id', 'DESC')->paginate(10);
+    }
 
     public function store(Request $request)
         {
@@ -128,25 +104,32 @@ class UserRepository implements UserInterface
             session()->flash('message', 'User Created successfully');
         }
 
+    public function show(string $id)
+        {
+        return Useradmin::where('id',$id)->first();
+    }
+
 
     public function update( $request, string $id)
         {
-            $request->validate([
-                '*' => 'required',
-                // 'name' => 'required',
+            $validatedData = $request->validate([
+                'name' => 'required|max:255',
                 'email' => 'required|unique:useradmins,email,' . $id,
-                'user_type'=> 'required|in:admin,user',
+                'user_type' => 'required|in:admin,user,etc',
             ]);
-            $user = $request->all();
-            Useradmin::find($id)->update($user);
-            session()->flash('message', 'User Updated successfully');
-            if($user){
-                return 1;
-            }
-            else{
+
+            $user = Useradmin::find($id);
+
+            if (!$user) {
                 return 0;
             }
 
+            $user->update($validatedData);
+
+            session()->flash('message', 'User updated successfully');
+            if($user){
+                return 1;
+            }
         }
 
     public function destroy(string $id)

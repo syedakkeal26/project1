@@ -73,11 +73,10 @@ class UseradminController extends Controller
                 if ($user == '1') {
                     return redirect()->intended(route('admin.index'));
                 }
-            }
-            else{
+                elseif($user == '2'){
                     return redirect()->intended(route('user.index'));
-                    }
-
+                }
+            }
             return redirect(route('login'))->with("error", "Email and password Incorrect");
         }
 //--------------------------------Using helpers -------------------------
@@ -103,7 +102,7 @@ class UseradminController extends Controller
         }
     public function index()
         {
-            $users = Useradmin::orderBy('id', 'DESC')->paginate(10);
+            $users =  $this->user->index();
             return view ('dashboard',['users'=>$users]);
         }
 
@@ -127,14 +126,14 @@ class UseradminController extends Controller
      */
     public function show(string $id)
         {
-            $user = Useradmin::where('id',$id)->first();
+            $user =  $this->user->show($id);
             return view('details',compact('user'));
         }
 
 
     public function edit(string $id)
         {
-            $user = Useradmin::where('id',$id)->first();
+            $user =  $this->user->show($id);
             return view('edit',compact('user')) ;
         }
 
@@ -144,6 +143,7 @@ class UseradminController extends Controller
             if($user=='1'){
                 return redirect(route('admin.index'));
             }
+
         }
 
 
